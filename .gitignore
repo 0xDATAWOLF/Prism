@@ -2,5 +2,6 @@
 /bin-int
 /Prism/*.xcworkspace
 /Prism/**/*.xcodeproj
+.DS_Store
 
 
