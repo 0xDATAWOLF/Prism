@@ -1,13 +1,14 @@
 
 workspace "Prism"
+    location "Prism"
     architecture "x64"
     configurations {"Debug","Release","Dist"}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
  
 project "Prism"
-    location "Engine"
-    kind "StaticLib"
+    location ("%{wks.name}/Prism")
+    kind "SharedLib"
     language "C++"
     cppdialect "C++17"
     staticruntime "On"
@@ -16,13 +17,13 @@ project "Prism"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp",
-        "%{prj.name}/src/**.c"
+        "%{wks.name}/%{prj.name}/src/**.h",
+        "%{wks.name}/%{prj.name}/src/**.hpp",
+        "%{wks.name}/%{prj.name}/src/**.cpp",
+        "%{wks.name}/%{prj.name}/src/**.c"
     }
 
-    include {
+    includedirs {
         "%{wks.name}/vendor/spd/include"
     }
 
@@ -64,7 +65,7 @@ project "Prism"
         optimize "On"
 
 project "Sandbox"
-    location "Sandbox"
+    location ("%{wks.name}/Sandbox")
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
@@ -74,16 +75,16 @@ project "Sandbox"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.hpp",
-        "%{prj.name}/src/**.cpp",
-        "%{prj.name}/src/**.c"
+        "%{wks.name}/%{prj.name}/src/**.h",
+        "%{wks.name}/%{prj.name}/src/**.hpp",
+        "%{wks.name}/%{prj.name}/src/**.cpp",
+        "%{wks.name}/%{prj.name}/src/**.c"
     }
 
-    include {
-        "Prism/vendor/spdlog/include",
-        "Prism/src",
-        "Prism/vendor"
+    includedirs {
+        "${wks.name}/vendor/spdlog/include",
+        "%{wks.name}/Prism/src",
+        "${wks.name}/vendor"
     }
 
     links {
