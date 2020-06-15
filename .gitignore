@@ -1,0 +1,6 @@
+/bin
+/bin-int
+/Prism/*.xcworkspace
+/Prism/**/*.xcodeproj
+
+

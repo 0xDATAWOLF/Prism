@@ -5,4 +5,4 @@
 #include "core/application.h"
 
 // --- Entry -------------------------------
-#include "core/entry.cpp"
+#include "core/entry.h"

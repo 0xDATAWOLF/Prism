@@ -5,7 +5,7 @@
 	#ifdef PRISM_BUILD_DLL
 		#define PRISM_API __declspec(dllexport)
 	#else
-		#define PRISM_API _declspec(dllimport)
+		#define PRISM_API __declspec(dllimport)
 	#endif 
 #endif
 

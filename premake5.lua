@@ -36,12 +36,11 @@ project "Prism"
         }
 
         postbuildcommands {
-            ("copy %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+            ("{COPY} %{cfg.buildtarget.relpath} ../../bin/" .. outputdir .. "/Sandbox")
         }
 
     filter "system:macosx"
         systemversion "latest"
-
 
         defines {
             "PRISM_PLATFORM_OSX",
@@ -49,7 +48,7 @@ project "Prism"
         }
 
         postbuildcommands {
-            ("cp %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+            ("{COPY} %{cfg.buildtarget.relpath} ../../bin/" .. outputdir .. "/Sandbox")
         }
 
     filter "configurations:Debug"
@@ -90,6 +89,20 @@ project "Sandbox"
     links {
         "Prism"
     }
+
+    filter "system:windows"
+        systemversion "latest"
+
+        defines {
+            "PRISM_PLATFORM_WINDOWS",
+        }
+
+    filter "system:macosx"
+        systemversion "latest"
+
+        defines {
+            "PRISM_PLATFORM_OSX",
+        }
 
     filter "system:windows"
         systemversion "latest"
