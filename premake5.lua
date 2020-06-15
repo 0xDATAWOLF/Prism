@@ -1,14 +1,16 @@
 
-outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
 workspace "Prism"
     architecture "x64"
     configurations {"Debug","Release","Dist"}
 
+outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+ 
 project "Prism"
     location "Engine"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -17,7 +19,7 @@ project "Prism"
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.hpp",
         "%{prj.name}/src/**.cpp",
-        "%{prj.name}/src/**.c",
+        "%{prj.name}/src/**.c"
     }
 
     include {
@@ -25,8 +27,6 @@ project "Prism"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines {
@@ -39,9 +39,8 @@ project "Prism"
         }
 
     filter "system:macosx"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
+
 
         defines {
             "PRISM_PLATFORM_OSX",
@@ -64,4 +63,47 @@ project "Prism"
         defines "PRISM_DIST"
         optimize "On"
 
-    
+project "Sandbox"
+    location "Sandbox"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++17"
+    staticruntime "On"
+
+    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+    files {
+        "%{prj.name}/src/**.h",
+        "%{prj.name}/src/**.hpp",
+        "%{prj.name}/src/**.cpp",
+        "%{prj.name}/src/**.c"
+    }
+
+    includedirs {
+        "Prism/vendor/spdlog/include",
+        "Prism/src",
+        "Prism/vendor"
+    }
+
+    links {
+        "Prism"
+    }
+
+    filter "system:windows"
+        systemversion "latest"
+
+    filter "system:macosx"
+        systemversion "latest"
+
+    filter "configurations:Debug"
+        defines "PRISM_DEBUG"
+        symbols "On"
+
+    filter "configurations:Debug"
+        defines "PRISM_RELEASE"
+        optimize "On"
+
+    filter "configurations:Debug"
+        defines "PRISM_DIST"
+        optimize "On"
