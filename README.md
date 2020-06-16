@@ -26,6 +26,9 @@ the engine shared library to the *Sandbox* environment. Premake is already inclu
 
 ## Feature List
 
+Below is a list of features that are being worked on in the project. They are sorted by their
+status, leading by completed, in-progress, scheduled, refactor, and scraped.
+
 **Icon Descriptions**
 * ⬜️ – Scheduled task / feature.
 * ℹ️ – Currently in progress or researched.
@@ -35,14 +38,16 @@ the engine shared library to the *Sandbox* environment. Premake is already inclu
 
 | Feature Name | Status | Implemented |
 | :--- | :--- | :----: |
-| Xcode premake | Premake creates project files, compilation to be tested | ℹ️ |
+| Xcode premake | Compilation tested, ready for development | ✅ |
+| App Framework | Basic framework implemented | ✅ |
+| Sandbox Project | Sandbox project implemented | ✅ |
 | Visual Studio premake | Untested | ℹ️ |
-| Logging | Included library, in-dev, no work necessary | ✅ |
-| App Framework | Not started | ⬜️ |
-| Sandbox Project | Not started | ⬜️ |
-| GLFW Project | Included source, in-dev | ⬜️ |
-| Premake Project Builder | Not started | ⬜️ |
-| Essential Utilities | Not started | ⬜️ |
+| Logging | Included the library, accessibility yet to be tested | ℹ️ |
+| GLFW Project | Included source, in-dev | ℹ️ |
+| Event Dispatcher | Implemented, untested | ℹ️ |
+| Window Implementation | Scheduled | ⬜️ |
+| Window Events | Scheduled | ⬜️ |
+| Input Wrapper | Scheduled | ⬜️ |
 
 
 
