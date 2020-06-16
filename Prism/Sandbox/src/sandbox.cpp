@@ -3,13 +3,10 @@
 
 class SandboxApplication : public Prism::Application {
 public:
-	SandboxApplication() {
-        // Print something out to the console.
-        std::cout << "Hello world." << std::endl;
-    };
+	SandboxApplication() {};
 	~SandboxApplication() {};
 };
 
 Prism::Application* Prism::CreateApplication() {
-	return new SandboxApplication();
+    return new SandboxApplication();
 }
