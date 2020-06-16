@@ -41,8 +41,8 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | Xcode premake | Compilation tested, ready for development | ✅ |
 | App Framework | Basic framework implemented | ✅ |
 | Sandbox Project | Sandbox project implemented | ✅ |
+| Logging | Macro tested, ready for use | ✅ |
 | Visual Studio premake | Untested | ℹ️ |
-| Logging | Included the library, accessibility yet to be tested | ℹ️ |
 | GLFW Project | Included source, in-dev | ℹ️ |
 | Event Dispatcher | Implemented, untested | ℹ️ |
 | Window Implementation | Scheduled | ⬜️ |
