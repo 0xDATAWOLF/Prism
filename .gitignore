@@ -4,4 +4,9 @@
 /Prism/**/*.xcodeproj
 .DS_Store
 
+.vs
 
+/Prism/*.sln
+/Prism/**/*.vcxproj
+/Prism/**/*.vcxproj.filters
+/Prism/**/*.vcxproj.user

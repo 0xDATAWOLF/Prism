@@ -1,4 +1,4 @@
-#include "Prism.h"
+#include <Prism.h>
 #include <iostream>
 
 class SandboxApplication : public Prism::Application {
@@ -8,5 +8,5 @@ public:
 };
 
 Prism::Application* Prism::CreateApplication() {
-    return new SandboxApplication();
+	return new SandboxApplication();
 }
