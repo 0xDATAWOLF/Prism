@@ -12,7 +12,7 @@ include "./Prism/glfw/"
 
 project "Prism"
     location ("%{wks.name}/Prism")
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
     cppdialect "C++14"
     staticruntime "On"
@@ -21,8 +21,7 @@ project "Prism"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     links {
-        "GLFW",
-        "opengl32.lib"
+        "GLFW"
     }
 
     files {

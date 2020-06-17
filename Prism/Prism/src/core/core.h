@@ -19,6 +19,7 @@
 
 // Platform OSX. No declspec required, empty token.
 #ifdef PRISM_PLATFORM_OSX
+    #define GL_SILENCE_DEPRECATION
 	#ifdef PRISM_BUILD_DLL
 		#define PRISM_API
 	#else
