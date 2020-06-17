@@ -43,9 +43,9 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | Sandbox Project | Sandbox project implemented | ✅ |
 | Logging | Macro tested, ready for use | ✅ |
 | Visual Studio premake | Compilation tested, ready for development | ✅ |
-| GLFW Project | Added premake file, setting up source build | ℹ️ |
+| GLFW Project | Ready for use | ✅ |
 | Event Dispatcher | Implemented, untested | ℹ️ |
-| Window Implementation | Scheduled | ⬜️ |
+| Window Implementation | Ready for implementation | ℹ️ |
 | Window Events | Scheduled | ⬜️ |
 | Input Wrapper | Scheduled | ⬜️ |
 
