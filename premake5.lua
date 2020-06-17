@@ -6,7 +6,10 @@ workspace "Prism"
     configurations {"Debug","Release","Dist"}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
- 
+
+-- Includes to the project, relative to the workspace location
+include "./Prism/glfw/"
+
 project "Prism"
     location ("%{wks.name}/Prism")
     kind "SharedLib"
@@ -17,6 +20,11 @@ project "Prism"
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+    links {
+        "GLFW",
+        "opengl32.lib"
+    }
+
     files {
         "%{wks.name}/%{prj.name}/src/**.h",
         "%{wks.name}/%{prj.name}/src/**.hpp",
@@ -26,10 +34,12 @@ project "Prism"
 
     sysincludedirs {
         "./Prism/vendor/spdlog/include/",
+        "./Prism/glfw/include/"
     }
 
     includedirs {
         "./Prism/vendor/spdlog/include/",
+        "./Prism/glfw/include/"
     }
 
     filter "system:windows"

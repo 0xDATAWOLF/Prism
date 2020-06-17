@@ -1,4 +1,5 @@
 #include "application.h"
+#include <GLFW/glfw3.h>
 
 namespace Prism {
 
@@ -7,7 +8,7 @@ namespace Prism {
     };
 
 	Application::~Application() {
-        CORE_INFO("Prism Engine preparing to exit.");
+        
     };
 
 	void Application::Run() {
