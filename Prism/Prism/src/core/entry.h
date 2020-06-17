@@ -3,17 +3,17 @@
  Performs platform independent initialization steps.
  */
 void _init() {
-    Prism::PrismLogger::Init();
+	Prism::PrismLogger::Init();
 }
 
 #ifdef PRISM_PLATFORM_WINDOWS
 
 extern Prism::Application* Prism::CreateApplication();
 int main(int argc, char ** argv) {
-    _init();
-    auto _app = Prism::CreateApplication();
-    _app->Run();
-    delete _app;
+	_init();
+	auto _app = Prism::CreateApplication();
+	_app->Run();
+	delete _app;
 }
 
 #endif
@@ -22,11 +22,11 @@ int main(int argc, char ** argv) {
 
 extern Prism::Application * Prism::CreateApplication();
 int main(int argc, char ** argv) {
-    _init();
-    auto _app = Prism::CreateApplication();
-    _app->Run();
-    delete _app;
-    return 0; // exit condition 0 for proper exit on unix platform.
+	_init();
+	auto _app = Prism::CreateApplication();
+	_app->Run();
+	delete _app;
+	return 0; // exit condition 0 for proper exit on unix platform.
 }
 
 #endif

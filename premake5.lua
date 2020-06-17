@@ -21,7 +21,8 @@ project "Prism"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     links {
-        "GLFW"
+        "GLFW",
+        "opengl32.lib"
     }
 
     files {
