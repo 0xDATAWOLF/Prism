@@ -1,6 +1,3 @@
 [submodule "Prism/vendor/spdlog"]
 	path = Prism/vendor/spdlog
 	url = https://github.com/gabime/spdlog
-[submodule "Prism/GLFW"]
-	path = Prism/GLFW
-	url = https://github.com/glfw/glfw
