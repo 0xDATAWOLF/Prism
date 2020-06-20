@@ -1,3 +1,5 @@
+// Entry point for the application
+#include <core/logger.h>
 
 /**
  Performs platform independent initialization steps.

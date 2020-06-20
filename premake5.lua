@@ -1,6 +1,6 @@
 
 workspace "Prism"
-    cppdialect "C++14"
+    cppdialect "C++17"
     location "Prism"
     architecture "x64"
     configurations {"Debug","Release","Dist"}
@@ -14,7 +14,7 @@ project "Prism"
     location ("%{wks.name}/Prism")
     kind "StaticLib"
     language "C++"
-    cppdialect "C++14"
+    cppdialect "C++17"
     staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -34,12 +34,16 @@ project "Prism"
 
     sysincludedirs {
         "./Prism/vendor/spdlog/include/",
-        "./Prism/glfw/include/"
+        "./Prism/glfw/include/",
+        "./Prism/vendor/glad/include/",
+        "./Prism/Prism/src/"
     }
 
     includedirs {
         "./Prism/vendor/spdlog/include/",
-        "./Prism/glfw/include/"
+        "./Prism/glfw/include/",
+        "./Prism/vendor/glad/include/",
+        "./Prism/Prism/src"
     }
 
     filter "system:windows"
@@ -83,7 +87,7 @@ project "Sandbox"
     location ("%{wks.name}/Sandbox")
     kind "ConsoleApp"
     language "C++"
-    cppdialect "C++14"
+    cppdialect "C++17"
     staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -98,11 +102,12 @@ project "Sandbox"
 
     includedirs {
         "./Prism/vendor/spdlog/include",
-        "./%{wks.name}/Prism/src"
+        "./Prism/Prism/src"
     }
 
     sysincludedirs {
         "./Prism/vendor/spdlog/include/",
+        "./Prism/Prism/src/"
     }
 
     links {
