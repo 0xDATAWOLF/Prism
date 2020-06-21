@@ -8,6 +8,7 @@
 #include <array>
 #include <memory>
 #include <string>
+#include <functional>
 
 // Platform windows.
 #ifdef PRISM_PLATFORM_WINDOWS

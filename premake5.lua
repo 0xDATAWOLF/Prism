@@ -71,15 +71,18 @@ project "Prism"
         }
 
     filter "configurations:Debug"
+        buildoptions "/MDd"
         defines "PRISM_DEBUG"
         symbols "On"
         optimize "Off"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        buildoptions "/MD"
         defines "PRISM_RELEASE"
         optimize "On"
 
-    filter "configurations:Debug"
+    filter "configurations:Dist"
+        buildoptions "/MD"
         defines "PRISM_DIST"
         optimize "On"
 
@@ -135,14 +138,17 @@ project "Sandbox"
         systemversion "latest"
 
     filter "configurations:Debug"
+        buildoptions "/MDd"
         defines "PRISM_DEBUG"
         symbols "On"
         optimize "Off"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        buildoptions "/MD"
         defines "PRISM_RELEASE"
         optimize "On"
 
-    filter "configurations:Debug"
+    filter "configurations:Dist"
+        buildoptions "/MD"
         defines "PRISM_DIST"
         optimize "On"

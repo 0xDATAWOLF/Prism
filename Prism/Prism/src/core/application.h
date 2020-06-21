@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 #include <core/core.h>
 #include <core/logger.h>
 #include <core/events.h>
