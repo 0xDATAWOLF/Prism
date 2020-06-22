@@ -9,6 +9,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Includes to the project, relative to the workspace location
 include "./Prism/glfw/"
+include "./Prism/vendor/glad/"
 
 project "Prism"
     location ("%{wks.name}/Prism")
@@ -22,6 +23,7 @@ project "Prism"
 
     links {
         "GLFW",
+        "glad",
         "opengl32.lib"
     }
 
@@ -51,7 +53,8 @@ project "Prism"
 
         defines {
             "PRISM_PLATFORM_WINDOWS",
-            "PRISM_BUILD_DLL"
+            "PRISM_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands {
@@ -63,7 +66,8 @@ project "Prism"
 
         defines {
             "PRISM_PLATFORM_OSX",
-            "PRISM_BUILD_DLL"
+            "PRISM_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands {

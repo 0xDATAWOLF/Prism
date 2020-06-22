@@ -3,6 +3,8 @@
 #include <core/events.h>
 #include <platform/windows/windowswindow.h>
 
+#include <glad/glad.h>
+
 namespace Prism {
 
 	/* A dirty flag indicating whether or not GLFW has already been initialized. */
@@ -39,6 +41,15 @@ namespace Prism {
 
 		glfwMakeContextCurrent(_glfwWindow);
 		SetVsync(true); // Enable vsync.
+
+		// Load Glad.
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		if (!status) {
+			dflag_GLFWInit = false;
+			CORE_ERROR("Glad was unable to load the process address.");
+			Shutdown();
+			throw "Glad was unable to load the process address.";
+		}
 
 		// Sets the window close callback.
 		glfwSetWindowCloseCallback(_glfwWindow, [](GLFWwindow* win) {
@@ -98,8 +109,6 @@ namespace Prism {
 	}
 
 	void WindowsWindow::Update() {
-		glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(_glfwWindow);
 		glfwPollEvents();
 	}

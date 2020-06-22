@@ -1,5 +1,5 @@
 #include <core/application.h>
-#include <glad/glad.h>
+#include <Glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Prism {
@@ -10,6 +10,10 @@ namespace Prism {
 		CORE_INFO("Creating window W{} H{} titled: {}", winprops.width, winprops.height, winprops.title);
 		_window = Window::Create(winprops); // Platform detection is done in this static method.
 		_window->Attach(this);
+
+		uint32_t vId;
+		glGenVertexArrays(1, &vId);
+
 	}
 
 	/* Constructs an application with a WindowProperties object. This is forwarded onto
@@ -31,6 +35,8 @@ namespace Prism {
 		// This is platform dependant code, this needs to be revised.
 		// Decouple from GLFW is advisable.
 		while (!glfwWindowShouldClose((GLFWwindow*)_window->GetWindowPtr())) {
+			glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
 			_window->Update();
 		}
 
