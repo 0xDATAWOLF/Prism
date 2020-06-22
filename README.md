@@ -44,10 +44,11 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | Logging | Macro tested, ready for use | ✅ |
 | Visual Studio premake | Compilation tested, ready for development | ✅ |
 | GLFW Project | Ready for use | ✅ |
-| Event Dispatcher | Implemented, untested | ℹ️ |
-| Window Implementation | Ready for implementation | ℹ️ |
-| Window Events | Scheduled | ⬜️ |
-| Input Wrapper | Scheduled | ⬜️ |
+| Event Dispatcher | Ready for use | ✅ |
+| Window Implementation | Glad for OpenGL added, functioning | ✅ |
+| Window Events | Create platform agnostic event behavior | ⏩ |
+| Input Wrapper | Task related to Window Events | ℹ️ |
+| Scenes & Layers | Scheduled | ⬜️ |
 
 
 
