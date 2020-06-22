@@ -1,6 +1,6 @@
 
 workspace "Prism"
-    cppdialect "C++14"
+    cppdialect "C++17"
     location "Prism"
     architecture "x64"
     configurations {"Debug","Release","Dist"}
@@ -9,12 +9,13 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Includes to the project, relative to the workspace location
 include "./Prism/glfw/"
+include "./Prism/vendor/glad/"
 
 project "Prism"
     location ("%{wks.name}/Prism")
     kind "StaticLib"
     language "C++"
-    cppdialect "C++14"
+    cppdialect "C++17"
     staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -22,6 +23,7 @@ project "Prism"
 
     links {
         "GLFW",
+        "glad",
         "opengl32.lib"
     }
 
@@ -34,12 +36,16 @@ project "Prism"
 
     sysincludedirs {
         "./Prism/vendor/spdlog/include/",
-        "./Prism/glfw/include/"
+        "./Prism/glfw/include/",
+        "./Prism/vendor/glad/include/",
+        "./Prism/Prism/src/"
     }
 
     includedirs {
         "./Prism/vendor/spdlog/include/",
-        "./Prism/glfw/include/"
+        "./Prism/glfw/include/",
+        "./Prism/vendor/glad/include/",
+        "./Prism/Prism/src"
     }
 
     filter "system:windows"
@@ -47,7 +53,8 @@ project "Prism"
 
         defines {
             "PRISM_PLATFORM_WINDOWS",
-            "PRISM_BUILD_DLL"
+            "PRISM_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands {
@@ -59,7 +66,8 @@ project "Prism"
 
         defines {
             "PRISM_PLATFORM_OSX",
-            "PRISM_BUILD_DLL"
+            "PRISM_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands {
@@ -67,15 +75,18 @@ project "Prism"
         }
 
     filter "configurations:Debug"
+        buildoptions "/MDd"
         defines "PRISM_DEBUG"
         symbols "On"
         optimize "Off"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        buildoptions "/MD"
         defines "PRISM_RELEASE"
         optimize "On"
 
-    filter "configurations:Debug"
+    filter "configurations:Dist"
+        buildoptions "/MD"
         defines "PRISM_DIST"
         optimize "On"
 
@@ -83,7 +94,7 @@ project "Sandbox"
     location ("%{wks.name}/Sandbox")
     kind "ConsoleApp"
     language "C++"
-    cppdialect "C++14"
+    cppdialect "C++17"
     staticruntime "On"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -98,11 +109,12 @@ project "Sandbox"
 
     includedirs {
         "./Prism/vendor/spdlog/include",
-        "./%{wks.name}/Prism/src"
+        "./Prism/Prism/src"
     }
 
     sysincludedirs {
         "./Prism/vendor/spdlog/include/",
+        "./Prism/Prism/src/"
     }
 
     links {
@@ -130,14 +142,17 @@ project "Sandbox"
         systemversion "latest"
 
     filter "configurations:Debug"
+        buildoptions "/MDd"
         defines "PRISM_DEBUG"
         symbols "On"
         optimize "Off"
 
-    filter "configurations:Debug"
+    filter "configurations:Release"
+        buildoptions "/MD"
         defines "PRISM_RELEASE"
         optimize "On"
 
-    filter "configurations:Debug"
+    filter "configurations:Dist"
+        buildoptions "/MD"
         defines "PRISM_DIST"
         optimize "On"
