@@ -57,7 +57,7 @@ namespace Prism {
 		};
 
 		/* Detaches an observer from the collection. */
-		inline void Detach(IObserver* obs) {
+		inline virtual void Detach(IObserver* obs) {
 			for (auto i = 0; i < _observers.size(); i++) // search for element and delete at pos.
 				if (obs == _observers[i]) _observers.erase(_observers.begin()+i);
 			return;

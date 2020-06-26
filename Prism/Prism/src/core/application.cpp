@@ -11,9 +11,6 @@ namespace Prism {
 		_window = Window::Create(winprops); // Platform detection is done in this static method.
 		_window->Attach(this);
 
-		uint32_t vId;
-		glGenVertexArrays(1, &vId);
-
 	}
 
 	/* Constructs an application with a WindowProperties object. This is forwarded onto
@@ -34,7 +31,7 @@ namespace Prism {
 		
 		// This is platform dependant code, this needs to be revised.
 		// Decouple from GLFW is advisable.
-		while (!glfwWindowShouldClose((GLFWwindow*)_window->GetWindowPtr())) {
+		while (_running) {
 			glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 			_window->Update();
@@ -43,7 +40,9 @@ namespace Prism {
 	}
 
 	void Application::OnEvent(IEvent* e) {
-		CORE_INFO("Application received an event: {}", e->GetEventName());
+		//CORE_INFO("Application received an event: {}", e->GetEventName());
+		// Detect if the window close event has been called.
+		if (e->GetEventType() == EventType::WindowCloseEvent) _running = false;
 	}
 
 }

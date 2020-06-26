@@ -22,6 +22,7 @@ namespace Prism {
 
 	protected:
 		std::unique_ptr<Window> _window;
+		bool _running = true;
 
 	};
 
