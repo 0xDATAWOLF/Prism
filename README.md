@@ -48,7 +48,8 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | Window Implementation | Glad for OpenGL added, functioning | ✅ |
 | Window Events | Create platform agnostic event behavior | ⏩ |
 | Input Wrapper | Task related to Window Events | ℹ️ |
-| Scenes & Layers | Scheduled | ⬜️ |
+| Scenes & Layers | In-dev | ℹ️ |
+| Object Memory Manager | In-dev | ℹ️ |
 
 
 
