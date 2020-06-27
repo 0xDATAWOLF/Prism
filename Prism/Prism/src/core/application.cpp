@@ -10,7 +10,6 @@ namespace Prism {
 		CORE_INFO("Creating window W{} H{} titled: {}", winprops.width, winprops.height, winprops.title);
 		_window = Window::Create(winprops); // Platform detection is done in this static method.
 		_window->Attach(this);
-
 	}
 
 	/* Constructs an application with a WindowProperties object. This is forwarded onto
@@ -29,11 +28,10 @@ namespace Prism {
 
 	void Application::Run() {
 		
-		// This is platform dependant code, this needs to be revised.
-		// Decouple from GLFW is advisable.
 		while (_running) {
 			glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
+			_scene->_pFrameUpdateLayers();
 			_window->Update();
 		}
 

@@ -33,7 +33,7 @@ namespace Prism {
 		virtual void Update() = 0;
 		virtual void * GetWindowPtr() = 0;
 
-		/* Creates and returns a window pointer. Must be implemented by deriving class. */
+		/* Creates and returns a window pointer based on the platform that the project is built on. */
 		static std::unique_ptr<Window> Create(const WindowProperties & winprops = WindowProperties());
 
 	};
