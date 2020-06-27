@@ -6,7 +6,7 @@ namespace Prism {
 	class InputMouseScrollEvent : public IEvent {
 
 	public:
-		inline InputMouseScrollEvent(double xpos, double ypos) {};
+		inline InputMouseScrollEvent(double xpos, double ypos) : _xpos(xpos), _ypos(ypos) {};
 		inline virtual ~InputMouseScrollEvent() {};
 
 		inline double GetXpos() { return _xpos; }

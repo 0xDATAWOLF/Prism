@@ -14,8 +14,13 @@ This automatically creates the necessary links to the dependencies and establish
 the engine shared library to the *Sandbox* environment. Premake is already included in the `./build_tools` directory.
 
 ```
-./build_tools/premake_[platform]/premake5 [IDE environment: xcode4, vs2019]
+./build_tools/premake_[platform]/premake5 [IDE environment: vs2019]
 ```
+
+For example: `./build_tools/premake_windows/premake5 vs2019`
+
+You can find the appropriate documentation in the wiki tab. This is for end-users and not reflective of the engine code
+which contains far more detail than what is provided in the wiki.
 
 ## Current Dependencies
 
@@ -46,10 +51,10 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | GLFW Project | Ready for use | ✅ |
 | Event Dispatcher | Ready for use | ✅ |
 | Window Implementation | Glad for OpenGL added, functioning | ✅ |
+| Scenes & Layers | Functional, but barebones | ✅ |
 | Window Events | Create platform agnostic event behavior | ⏩ |
 | Input Wrapper | Task related to Window Events | ℹ️ |
-| Scenes & Layers | In-dev | ℹ️ |
 | Object Memory Manager | In-dev | ℹ️ |
 
-
-
+## License
+Please review the [license](LICENSE.md) before cloning the project.

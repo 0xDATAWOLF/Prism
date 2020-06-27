@@ -6,6 +6,7 @@
 #include "core/events.h"
 #include "core/application.h"
 #include "core/window.h"
+#include "core/scene.h"
+#include "core/layer.h"
 
-// --- Entry -------------------------------
 #include "core/entry.h"

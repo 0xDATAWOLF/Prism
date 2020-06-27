@@ -3,12 +3,14 @@
 #include <core/logger.h>
 #include <core/events.h>
 #include <core/window.h>
+#include <core/scene.h>
 
 namespace Prism {
 
 	/* Application is the core base class of the Prism Engine. It contains all the functionality to interact with
 	the engine as well as provide */
 	class Application : public IObserver {
+
 	public:
 
 		/* Constructs and initializes the window. */
@@ -17,10 +19,17 @@ namespace Prism {
 		Application(WindowProperties && = WindowProperties());
 		virtual ~Application();
 
-		void Run();
-		void OnEvent(IEvent*);
+		/* Sets a scene using the template argument. */
+		template<class DerivedSceneClass> inline void SetScene() { _scene = std::make_shared<DerivedSceneClass>(DerivedSceneClass()); };
 
-	protected:
+		/* Executes the application runtime, performed automatically. Do not call this method. */
+		void Run();
+
+	private:
+		void OnEvent(IEvent*);
+		std::shared_ptr<Scene> _scene;
+
+	private:
 		std::unique_ptr<Window> _window;
 		bool _running = true;
 
