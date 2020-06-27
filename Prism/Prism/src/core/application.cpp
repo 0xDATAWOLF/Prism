@@ -32,7 +32,7 @@ namespace Prism {
 		while (_running) {
 			glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			_scene->_pFrameUpdateLayers();
+			if (_scene != nullptr) _scene->_pFrameUpdateLayers();
 			_window->Update();
 		}
 

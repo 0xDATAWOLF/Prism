@@ -8,7 +8,7 @@ workspace "Prism"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Includes to the project, relative to the workspace location
-include "./Prism/glfw/"
+include "./Prism/vendor/glfw/"
 include "./Prism/vendor/glad/"
 include "./Prism/vendor/imgui"
 
@@ -36,18 +36,18 @@ project "Prism"
     }
 
     sysincludedirs {
-        "./Prism/vendor/spdlog/include/",
-        "./Prism/glfw/include/",
-        "./Prism/vendor/glad/include/",
         "./Prism/Prism/src/",
+        "./Prism/vendor/spdlog/include/",
+        "./Prism/vendor/glfw/include/",
+        "./Prism/vendor/glad/include/",
         "./Prism/vendor/imgui/"
     }
 
     includedirs {
-        "./Prism/vendor/spdlog/include/",
-        "./Prism/glfw/include/",
-        "./Prism/vendor/glad/include/",
         "./Prism/Prism/src",
+        "./Prism/vendor/spdlog/include/",
+        "./Prism/vendor/glfw/include/",
+        "./Prism/vendor/glad/include/",
         "./Prism/vendor/imgui/"
     }
 
@@ -58,19 +58,6 @@ project "Prism"
             "PRISM_PLATFORM_WINDOWS",
             "PRISM_BUILD_DLL",
             "GLFW_INCLUDE_NONE"
-        }
-
-        postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../../bin/" .. outputdir .. "/Sandbox"),
-            ("{COPY} %{cfg.buildtarget.relpath} ../../bin/" .. outputdir .. "/TestingEnvironment")
-        }
-
-    filter "system:macosx"
-        systemversion "latest"
-
-        defines {
-            "PRISM_PLATFORM_OSX",
-            "PRISM_BUILD_DLL"
         }
 
         postbuildcommands {
@@ -130,19 +117,6 @@ project "Sandbox"
         defines {
             "PRISM_PLATFORM_WINDOWS",
         }
-
-    filter "system:macosx"
-        systemversion "latest"
-
-        defines {
-            "PRISM_PLATFORM_OSX",
-        }
-
-    filter "system:windows"
-        systemversion "latest"
-
-    filter "system:macosx"
-        systemversion "latest"
 
     filter "configurations:Debug"
         buildoptions "/MDd"
