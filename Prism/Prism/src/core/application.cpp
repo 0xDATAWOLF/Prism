@@ -1,6 +1,7 @@
 #include <core/application.h>
 #include <Glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <imgui.h>
 
 namespace Prism {
 

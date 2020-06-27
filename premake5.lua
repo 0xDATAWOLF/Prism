@@ -10,6 +10,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Includes to the project, relative to the workspace location
 include "./Prism/glfw/"
 include "./Prism/vendor/glad/"
+include "./Prism/vendor/imgui"
 
 project "Prism"
     location ("%{wks.name}/Prism")
@@ -38,14 +39,16 @@ project "Prism"
         "./Prism/vendor/spdlog/include/",
         "./Prism/glfw/include/",
         "./Prism/vendor/glad/include/",
-        "./Prism/Prism/src/"
+        "./Prism/Prism/src/",
+        "./Prism/vendor/imgui/"
     }
 
     includedirs {
         "./Prism/vendor/spdlog/include/",
         "./Prism/glfw/include/",
         "./Prism/vendor/glad/include/",
-        "./Prism/Prism/src"
+        "./Prism/Prism/src",
+        "./Prism/vendor/imgui/"
     }
 
     filter "system:windows"
@@ -105,75 +108,6 @@ project "Sandbox"
         "%{wks.name}/%{prj.name}/src/**.hpp",
         "%{wks.name}/%{prj.name}/src/**.cpp",
         "%{wks.name}/%{prj.name}/src/**.c"
-    }
-
-    includedirs {
-        "./Prism/vendor/spdlog/include",
-        "./Prism/Prism/src"
-    }
-
-    sysincludedirs {
-        "./Prism/vendor/spdlog/include/",
-        "./Prism/Prism/src/"
-    }
-
-    links {
-        "Prism"
-    }
-
-    filter "system:windows"
-        systemversion "latest"
-
-        defines {
-            "PRISM_PLATFORM_WINDOWS",
-        }
-
-    filter "system:macosx"
-        systemversion "latest"
-
-        defines {
-            "PRISM_PLATFORM_OSX",
-        }
-
-    filter "system:windows"
-        systemversion "latest"
-
-    filter "system:macosx"
-        systemversion "latest"
-
-    filter "configurations:Debug"
-        buildoptions "/MDd"
-        defines "PRISM_DEBUG"
-        symbols "On"
-        optimize "Off"
-
-    filter "configurations:Release"
-        buildoptions "/MD"
-        defines "PRISM_RELEASE"
-        optimize "On"
-
-    filter "configurations:Dist"
-        buildoptions "/MD"
-        defines "PRISM_DIST"
-        optimize "On"
-
-project "TestingEnvironment"
-    location ("%{wks.name}/TestingEnvironment")
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++17"
-    staticruntime "On"
-
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-    files {
-        "%{wks.name}/%{prj.name}/*.cpp",
-        "%{wks.name}/%{prj.name}/*.h",
-        "%{wks.name}/%{prj.name}/tsrc/**.h",
-        "%{wks.name}/%{prj.name}/tsrc/**.hpp",
-        "%{wks.name}/%{prj.name}/tsrc/**.cpp",
-        "%{wks.name}/%{prj.name}/tsrc/**.c"
     }
 
     includedirs {

@@ -8,5 +8,4 @@
 #include "core/window.h"
 #include "core/scene.h"
 #include "core/layer.h"
-
 #include "core/entry.h"
