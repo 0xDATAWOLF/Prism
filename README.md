@@ -28,6 +28,7 @@ which contains far more detail than what is provided in the wiki.
 * **GLFW** The window framework. It is cross-platform, perfect for
 	porting to other operating systems.
 * **spdlog** A logging library because *no one* needs to reinvent this wheel.
+* **Dear imgui** An immediate mode GUI for... GUI stuff.
 
 ## Feature List
 
@@ -43,7 +44,7 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 
 | Feature Name | Status | Implemented |
 | :--- | :--- | :----: |
-| Xcode premake | Compilation tested, ready for development | ✅ |
+| Xcode premake | Mac OSX deprecated support for OpenGL | 🆑 |
 | App Framework | Basic framework implemented | ✅ |
 | Sandbox Project | Sandbox project implemented | ✅ |
 | Logging | Macro tested, ready for use | ✅ |
@@ -52,6 +53,7 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | Event Dispatcher | Ready for use | ✅ |
 | Window Implementation | Glad for OpenGL added, functioning | ✅ |
 | Scenes & Layers | Functional, but barebones | ✅ |
+| Dear ImGUI | Included into the project | ✅ |
 | Window Events | Create platform agnostic event behavior | ⏩ |
 | Input Wrapper | Task related to Window Events | ℹ️ |
 | Object Memory Manager | In-dev | ℹ️ |
