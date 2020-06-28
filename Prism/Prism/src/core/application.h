@@ -5,33 +5,44 @@
 #include <core/window.h>
 #include <core/scene.h>
 
+int main(int argc, char** argv); // Forward dec main.
+
 namespace Prism {
 
-	/* Application is the core base class of the Prism Engine. It contains all the functionality to interact with
-	the engine as well as provide */
+	/* Application is the core base class of the Prism Engine. It contains all the
+	functionality to interact with the engine as well as provide */
 	class Application : public IObserver {
 
 	public:
 
+		friend int ::main(int argc, char** argv);
+
 		/* Constructs and initializes the window. */
 		Application(uint32_t, uint32_t, std::string);
-		Application(WindowProperties &);
-		Application(WindowProperties && = WindowProperties());
 		virtual ~Application();
 
-		/* Sets a scene using the template argument. */
-		template<class DerivedSceneClass> inline void SetScene() { _scene = std::make_shared<DerivedSceneClass>(DerivedSceneClass()); };
+		/* SetScene replaces the current scene with a new scene. */
+		template<class S> void SetScene() {
+			_scene = std::make_shared<S>(S());
+		};
 
-		/* Executes the application runtime, performed automatically. Do not call this method. */
-		void Run();
+		/* Returns a pointer to the currently active scene. */
+		template<class S> S* GetScene() {
+			return dynamic_cast<S*>(_scene.get());
+		}
 
 	private:
 		void OnEvent(IEvent*);
 		std::shared_ptr<Scene> _scene;
 
-	private:
 		std::unique_ptr<Window> _window;
 		bool _running = true;
+
+		/* Executes the application runtime, performed automatically. Do NOT call this method. */
+		void Run();
+
+	private:
+		static Application* _singletonInstance;
 
 	};
 

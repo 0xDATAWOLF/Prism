@@ -14,7 +14,7 @@ namespace Prism {
 		bool vsyncEnabled;
 
 		/* Constructs window properties with default values. */
-		inline WindowProperties(int32_t w = 1280, int32_t h = 720, std::string t = "Prism Engine | 0xDATAWOLF")
+		inline WindowProperties(uint32_t w = 1280, uint32_t h = 720, std::string t = "Prism Engine | 0xDATAWOLF")
 			: width(w), height(h), title(t), vsyncEnabled(true) {}
 	};
 

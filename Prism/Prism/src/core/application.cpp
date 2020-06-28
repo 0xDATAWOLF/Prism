@@ -5,23 +5,14 @@
 
 namespace Prism {
 
-	/* Constructs an application with a WindowProperties object. This is the default constructor. */
-	Application::Application(WindowProperties && winprops) {
-		CORE_INFO("Prism is initializing.");
-		CORE_INFO("Creating window W{} H{} titled: {}", winprops.width, winprops.height, winprops.title);
-		_window = Window::Create(winprops); // Platform detection is done in this static method.
-		_window->Attach(this);
-	}
-
-	/* Constructs an application with a WindowProperties object. This is forwarded onto
-	Application(WindowProperties &&) using move semantics. */
-	Application::Application(WindowProperties& winprops) :
-		Application(std::move(winprops)) {};
-
 	/* Constructs an application with explicit width, hieght, and title properties as constructor
 	arguments. This is forwarded onto Application(WindowProperties &&). */
-	Application::Application(uint32_t width, uint32_t height, std::string windowTitle) :
-		Application(WindowProperties(width, height, windowTitle)) {};
+	Application::Application(uint32_t width, uint32_t height, std::string windowTitle) {
+		CORE_INFO("Prism is initializing.");
+		CORE_INFO("Creating window W{} H{} titled: {}", width, height, windowTitle);
+		_window = Window::Create(WindowProperties{width, height, windowTitle});
+		_window->Attach(this);
+	};
 
 	Application::~Application() {
 		CORE_INFO("Prism is shutting down.");
