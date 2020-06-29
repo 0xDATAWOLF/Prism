@@ -4,7 +4,6 @@
 #include <core/core.h>
 #include <core/logger.h>
 #include <core/application.h>
-#include <core/scene.h>
 #include <core/layer.h>
 
 // --- Entry -------------------------------

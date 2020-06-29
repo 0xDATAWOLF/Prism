@@ -5,25 +5,33 @@
 
 namespace Prism {
 
-	/* Constructs an application with explicit width, hieght, and title properties as constructor
-	arguments. This is forwarded onto Application(WindowProperties &&). */
+	Application* Application::_singletonInstance = nullptr;
+
 	Application::Application(uint32_t width, uint32_t height, std::string windowTitle) {
-		CORE_INFO("Prism is initializing.");
+		if (_singletonInstance == nullptr) _singletonInstance = this;
+		else throw "Only one instance of Application is allowed.";
+
 		CORE_INFO("Creating window W{} H{} titled: {}", width, height, windowTitle);
 		_window = Window::Create(WindowProperties{width, height, windowTitle});
 		_window->Attach(this);
+
+		_layerStack = std::make_unique<LayerStack>(LayerStack());
 	};
 
 	Application::~Application() {
 		CORE_INFO("Prism is shutting down.");
 	};
 
+	void Application::PopLayer(Layer* layer) {
+		_layerStack->PopLayer(layer); // fwd
+	}
+
 	void Application::Run() {
-		
+
 		while (_running) {
 			glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			if (_scene != nullptr) _scene->_pFrameUpdateLayers();
+			_layerStack->UpdateLayers();
 			_window->Update();
 		}
 
@@ -31,7 +39,6 @@ namespace Prism {
 
 	void Application::OnEvent(IEvent* e) {
 		//CORE_INFO("Application received an event: {}", e->GetEventName());
-		// Detect if the window close event has been called.
 		if (e->GetEventType() == EventType::WindowCloseEvent) _running = false;
 	}
 
