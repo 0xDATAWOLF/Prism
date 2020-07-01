@@ -6,7 +6,7 @@ namespace Prism {
 	std::shared_ptr<spdlog::logger> PrismLogger::_engineLogger;
 
 	void PrismLogger::Init() {
-		spdlog::set_pattern("%^[%T][%n][%l][thread %t]%$ : %v"); // set pattern
+		spdlog::set_pattern("%^[%T.%e][%n][%l][thread %t]%$ : %v"); // set pattern
 		_engineLogger = spdlog::stdout_color_mt("Prism");
 		_clientLogger = spdlog::stdout_color_mt("Application");
 		_engineLogger->set_level(spdlog::level::trace);

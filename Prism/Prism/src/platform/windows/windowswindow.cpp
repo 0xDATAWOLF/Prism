@@ -36,7 +36,8 @@ namespace Prism {
 		_winData.width = winprops.width;
 		_winData.height = winprops.height;
 		_winData.title = winprops.title;
-		_winData.callbackfn = std::bind(&WindowsWindow::Dispatch, this, std::placeholders::_1); // Bind ISubject::Dispatch as the callbackfn.
+		_winData.callbackfn = std::bind(&WindowsWindow::Send, this, std::placeholders::_1);
+		glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), &_winData.wScale, &_winData.hScale);
 		glfwSetWindowUserPointer(_glfwWindow, &_winData);
 
 		glfwMakeContextCurrent(_glfwWindow);
@@ -68,35 +69,65 @@ namespace Prism {
 		// Sets the text input callback.
 		glfwSetCharCallback(_glfwWindow, [](GLFWwindow* win, uint32_t codepoint) {
 			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(win);
-			InputCharEvent e(codepoint);
+			KeyTypedEvent e(codepoint);
 			windowData.callbackfn(&e);
 		});
 
 		// Sets the key callback.
 		glfwSetKeyCallback(_glfwWindow, [](GLFWwindow* win, int key, int scancode, int action, int mods) {
 			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(win);
-			InputKeyEvent e(key, scancode, action, mods);
-			windowData.callbackfn(&e);
+			
+			if (key == GLFW_KEY_UNKNOWN) return; // do nothing on unknown key
+
+			if (action == GLFW_PRESS) {
+				KeyDownEvent e(key);
+				windowData.callbackfn(&e);
+				return;
+			}
+
+			if (action == GLFW_REPEAT) {
+				KeyHeldEvent e(key);
+				windowData.callbackfn(&e);
+				return;
+			}
+
+			if (action == GLFW_RELEASE) {
+				KeyReleasedEvent e(key);
+				windowData.callbackfn(&e);
+				return;
+			}
+
 		});
 
 		// Sets the cursor position callback.
 		glfwSetCursorPosCallback(_glfwWindow, [](GLFWwindow* win, double xpos, double ypos) {
 			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(win);
-			InputMouseMoveEvent e(xpos, ypos);
+			MouseMoveEvent e(xpos, ypos);
 			windowData.callbackfn(&e);
 		});
 
 		// Sets the mouse button callback.
 		glfwSetMouseButtonCallback(_glfwWindow, [](GLFWwindow* win, int button, int action, int mods) {
 			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(win);
-			InputMouseButtonEvent e(button, action, mods);
-			windowData.callbackfn(&e);
+
+			if (action == GLFW_PRESS) {
+				MouseButtonDownEvent e(button);
+				windowData.callbackfn(&e);
+				return;
+			}
+
+			if (action == GLFW_RELEASE) {
+				MouseButtonReleasedEvent e(button);
+				windowData.callbackfn(&e);
+				return;
+			}
+
 		});
 
 		// Sets the mouse scroll callback.
 		glfwSetScrollCallback(_glfwWindow, [](GLFWwindow* win, double xpos, double ypos) {
 			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(win);
-			InputMouseScrollEvent e(xpos, ypos);
+			MouseScrollEvent e(xpos, ypos);
 			windowData.callbackfn(&e);
 		});
 
@@ -109,6 +140,7 @@ namespace Prism {
 	}
 
 	void WindowsWindow::Update() {
+		glViewport(0, 0, _winData.width, _winData.height);
 		glfwSwapBuffers(_glfwWindow);
 		glfwPollEvents();
 	}

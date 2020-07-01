@@ -25,6 +25,7 @@ project "Prism"
     links {
         "GLFW",
         "glad",
+        "ImGui",
         "opengl32.lib"
     }
 

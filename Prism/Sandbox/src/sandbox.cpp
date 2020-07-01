@@ -1,6 +1,5 @@
 #include <Prism.h>
 
-
 class ExampleLayer : public Prism::Layer {
 
 public:
@@ -13,10 +12,7 @@ public:
 	};
 
 	void Update() override {
-		_count++;
-		if (_count <= 10) {
-			PRISM_INFO("ExampleLayer updated.");
-		}
+		
 	}
 
 protected:
@@ -29,6 +25,7 @@ public:
 
 	SandboxApplication() : Application(1280, 720, "Prism Engine - Sandbox") {
 		PushLayer<ExampleLayer>();
+		PushOverlay<Prism::ImGUILayer>();
 	};
 	~SandboxApplication() {};
 

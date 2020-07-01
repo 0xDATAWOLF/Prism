@@ -5,12 +5,10 @@
 #include <core/window.h>
 #include <core/layerstack.h>
 
-int main(int argc, char** argv);
+int main(int argc, char** argv); // fwd dec
 
 namespace Prism {
 
-	/* Application is the core base class of the Prism Engine. It contains all the
-	functionality to interact with the engine as well as provide */
 	class Application : public IObserver {
 
 	public:
@@ -20,16 +18,26 @@ namespace Prism {
 		virtual ~Application();
 		
 		template <class L> void PushLayer();
+		template <class L> void PushOverlay();
 		void PopLayer(Layer*);
+		void PopOverlay(Layer*);
+
+		inline void* GetNativeWindow() { return _window->GetWindowPtr(); }
+		inline uint32_t GetWindowWidth() { return _window->GetWidth(); }
+		inline uint32_t GetWindowHeight() { return _window->GetHeight(); }
 
 		inline static Application& Get() { return *_singletonInstance; };
 
 	private:
 		void OnEvent(IEvent*);
+		bool OnWindowClose(WindowCloseEvent*);
+		bool OnWindowResize(WindowResizeEvent*);
+
 		void Run(); // Used in main
 
 		std::unique_ptr<LayerStack> _layerStack;
 		std::unique_ptr<Window> _window;
+
 		bool _running = true;
 
 	private:
@@ -37,13 +45,20 @@ namespace Prism {
 
 	};
 
-	// This is the user-defined entry point for the Prism Engine. The defined function must return a
-	// a heap allocated Prism::Application user-defined derived class.
-	Application* CreateApplication();
-
 	template <class L>
 	inline void Application::PushLayer() {
-		_layerStack->PushLayer<L>(); //fwd
+		_layerStack->Push<L>(); //fwd
 	}
+
+	template <class L>
+	inline void Application::PushOverlay() {
+		_layerStack->PushOverlay<L>(); // fwd
+	}
+
+}
+
+namespace Prism {
+
+	Application* CreateApplication(); // dec
 
 }

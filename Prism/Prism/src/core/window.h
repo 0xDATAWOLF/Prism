@@ -27,6 +27,10 @@ namespace Prism {
 		inline virtual ~Window() {};
 		virtual uint32_t GetWidth() = 0;
 		virtual uint32_t GetHeight() = 0;
+		virtual float GetDPIWidthScale() = 0;
+		virtual float GetDPIHeightScale() = 0;
+		virtual void SetWidth(uint32_t) = 0;
+		virtual void SetHeight(uint32_t) = 0;
 		virtual bool GetVsync() const = 0;
 		virtual void SetVsync(bool) = 0;
 
