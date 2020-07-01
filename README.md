@@ -29,6 +29,7 @@ which contains far more detail than what is provided in the wiki.
 	porting to other operating systems.
 * **spdlog** A logging library because *no one* needs to reinvent this wheel.
 * **Dear imgui** An immediate mode GUI for... GUI stuff.
+* **glm** Maths library. I eventually want to make my own because this wheel is fun to reinvent.
 
 ## Feature List
 
@@ -57,6 +58,7 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | ImGUI Demo Layer | Functioning | ✅ |
 | Window Events | In use | ✅ |
 | Input Wrapper | Ready for use | ✅ |
+| Added GLM | Ready for use | ✅ |
 | Input Holding & Counting | Set up for holding and count how many frames held | ℹ️ |
 | WindowsWindow Input Refactor | Refactor OnEvent inputs to translate to the Input class | ℹ️ |
 | Object Memory Manager | Scheduled | ⬜️ |

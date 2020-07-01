@@ -56,7 +56,7 @@ namespace Prism {
 		dispatcher.Forward<WindowResizeEvent>(std::bind(&Application::OnWindowResize, this, std::placeholders::_1));
 
 		for (auto layer : *_layerStack) {
-			layer->OnEvent(e); // fwd
+			if (!e->IsHandled()) layer->OnEvent(e); // fwd to layers
 		}
 
 	}
