@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include <Prism.h>
+#include <glm.hpp>
 
 class ExampleLayer : public Prism::Layer {
 
@@ -12,7 +15,7 @@ public:
 	};
 
 	void Update() override {
-		
+	
 	}
 
 protected:

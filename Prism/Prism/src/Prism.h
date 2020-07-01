@@ -6,6 +6,7 @@
 #include <core/events.h>
 #include <core/application.h>
 #include <core/layer.h>
+#include <core/input.h>
 #include <core/imgui/imgui_layer.h>
 
 // --- Entry -------------------------------

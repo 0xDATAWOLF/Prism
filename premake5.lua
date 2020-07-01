@@ -41,7 +41,8 @@ project "Prism"
         "./Prism/vendor/spdlog/include/",
         "./Prism/vendor/glfw/include/",
         "./Prism/vendor/glad/include/",
-        "./Prism/vendor/imgui/"
+        "./Prism/vendor/imgui/",
+        "./Prism/vendor/glm/glm/"
     }
 
     includedirs {
@@ -49,7 +50,8 @@ project "Prism"
         "./Prism/vendor/spdlog/include/",
         "./Prism/vendor/glfw/include/",
         "./Prism/vendor/glad/include/",
-        "./Prism/vendor/imgui/"
+        "./Prism/vendor/imgui/",
+        "./Prism/vendor/glm/glm/"
     }
 
     filter "system:windows"
@@ -100,12 +102,14 @@ project "Sandbox"
 
     includedirs {
         "./Prism/vendor/spdlog/include",
-        "./Prism/Prism/src"
+        "./Prism/Prism/src",
+        "./Prism/vendor/glm/glm/",
     }
 
     sysincludedirs {
         "./Prism/vendor/spdlog/include/",
-        "./Prism/Prism/src/"
+        "./Prism/Prism/src/",
+        "./Prism/vendor/glm/glm/"
     }
 
     links {

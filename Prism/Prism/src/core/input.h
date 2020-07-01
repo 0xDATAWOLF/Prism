@@ -6,7 +6,7 @@ namespace Prism {
 	enum class Key;			// fwd dec
 	enum class MouseBtn;	// fwd dec
 
-	class InputStrategy {	// defined by platform and provided to input.
+	class InputStrategy {	// Defined automatically by platform and provided to input on startup
 
 	public:
 		virtual bool f_IsKeyPressed(Key) = 0;
