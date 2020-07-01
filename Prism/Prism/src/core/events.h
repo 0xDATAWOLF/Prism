@@ -4,9 +4,17 @@
 namespace Prism {
 
 	enum class EventType {
-		NullEvent, WindowCloseEvent, WindowResizeEvent,
-		InputCharEvent, InputKeyEvent, InputMouseMoveEvent,
-		InputMouseButtonEvent, InputMouseScrollEvent
+		NullEvent,					// Complete
+		WindowCloseEvent,			// Complete
+		WindowResizeEvent,			// Complete
+		KeyTypedEvent,				// Complete
+		KeyDownEvent,				// Complete
+		KeyHeldEvent,				// Complete
+		KeyReleasedEvent,			// Complete
+		MouseButtonDownEvent,		// Complete
+		MouseButtonReleasedEvent,	// Complete
+		MouseMoveEvent,				// Complete
+		MouseScrollEvent,			// Complete
 	};
 
 	#define EVENT_CLASS_TYPE(type) \
@@ -32,11 +40,26 @@ namespace Prism {
 	class IObserver {
 	public:
 		~IObserver() {};
+		virtual void OnEvent(IEvent* ev) { return; }
+	};
 
-		/* The OnEvent method captures all events that have been dispatched to it by ISubject
-		implementors if the IObserver implementor is attached to it. When left undefined, the IObserver
-		consumes the event and implicitly returns, performing no action on the event. */
-		virtual void OnEvent(IEvent* ev) { return;  }
+	class IDispatcher {
+
+	public:
+		inline IDispatcher(IEvent * e) : _e(e) {};
+		inline virtual ~IDispatcher() {};
+
+		template <class E, typename R>
+		bool Forward(const R& func) {
+			if (_e->GetEventType() == E::GetStaticType()) {
+				_e->SetHandled(func(static_cast<E*>(_e)));
+				return true;
+			}
+			return false;
+		}
+
+	protected:
+		IEvent* _e;
 
 	};
 
@@ -44,36 +67,37 @@ namespace Prism {
 	public:
 		virtual ~ISubject() {};
 
-		/* Dispatches events to the observers in the collection. */
-		inline void Dispatch(IEvent * ev) {
+		inline void Send(IEvent * ev) {
 			for (auto a : _observers) a->OnEvent(ev);
 		}
 
-		/* Attaches an observer to the collection. */
 		inline void Attach(IObserver* obs) {
-			for (auto a : _observers) // determine if the observer is unique.
+			for (auto a : _observers)
 				if (a == obs) return;
 			_observers.push_back(obs);
 		};
 
-		/* Detaches an observer from the collection. */
 		inline virtual void Detach(IObserver* obs) {
-			for (auto i = 0; i < _observers.size(); i++) // search for element and delete at pos.
+			for (auto i = 0; i < _observers.size(); i++)
 				if (obs == _observers[i]) _observers.erase(_observers.begin()+i);
 			return;
 		};
+
 	protected:
 		std::vector<IObserver*> _observers;
 	};
 
 }
 
-// Include the events so that the user doesn't need to include individually.
+// --- Events ------------------------------------
 #include <core/events/NullEvent.h>
 #include <core/events/WindowCloseEvent.h>
 #include <core/events/WindowResizeEvent.h>
-#include <core/events/InputCharEvent.h>
-#include <core/events/InputKeyEvent.h>
-#include <core/events/InputMouseMoveEvent.h>
-#include <core/events/InputMouseButtonEvent.h>
-#include <core/events/InputMouseScrollEvent.h>
+#include <core/events/KeyTypedEvent.h>
+#include <core/events/KeyDownEvent.h>
+#include <core/events/KeyHeldEvent.h>
+#include <core/events/KeyReleasedEvent.h>
+#include <core/events/MouseButtonDownEvent.h>
+#include <core/events/MouseButtonReleasedEvent.h>
+#include <core/events/MouseMoveEvent.h>
+#include <core/events/MouseScrollEvent.h>

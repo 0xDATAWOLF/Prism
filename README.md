@@ -54,9 +54,12 @@ status, leading by completed, in-progress, scheduled, refactor, and scraped.
 | Window Implementation | Glad for OpenGL added, functioning | ✅ |
 | Scenes & Layers | Functional, but barebones | ✅ |
 | Dear ImGUI | Included into the project | ✅ |
-| Window Events | Create platform agnostic event behavior | ⏩ |
-| Input Wrapper | Task related to Window Events | ℹ️ |
-| Object Memory Manager | In-dev | ℹ️ |
+| ImGUI Demo Layer | Functioning | ✅ |
+| Window Events | In use | ✅ |
+| Input Wrapper | Ready for use | ✅ |
+| Input Holding & Counting | Set up for holding and count how many frames held | ℹ️ |
+| WindowsWindow Input Refactor | Refactor OnEvent inputs to translate to the Input class | ℹ️ |
+| Object Memory Manager | Scheduled | ⬜️ |
 
 ## License
 Please review the [license](LICENSE.md) before cloning the project.

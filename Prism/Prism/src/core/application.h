@@ -3,51 +3,62 @@
 #include <core/logger.h>
 #include <core/events.h>
 #include <core/window.h>
-#include <core/scene.h>
+#include <core/layerstack.h>
 
-int main(int argc, char** argv); // Forward dec main.
+int main(int argc, char** argv); // fwd dec
 
 namespace Prism {
 
-	/* Application is the core base class of the Prism Engine. It contains all the
-	functionality to interact with the engine as well as provide */
 	class Application : public IObserver {
 
 	public:
-
 		friend int ::main(int argc, char** argv);
 
-		/* Constructs and initializes the window. */
 		Application(uint32_t, uint32_t, std::string);
 		virtual ~Application();
+		
+		template <class L> void PushLayer();
+		template <class L> void PushOverlay();
+		void PopLayer(Layer*);
+		void PopOverlay(Layer*);
 
-		/* SetScene replaces the current scene with a new scene. */
-		template<class S> void SetScene() {
-			_scene = std::make_shared<S>(S());
-		};
+		inline void* GetNativeWindow() { return _window->GetWindowPtr(); }
+		inline uint32_t GetWindowWidth() { return _window->GetWidth(); }
+		inline uint32_t GetWindowHeight() { return _window->GetHeight(); }
 
-		/* Returns a pointer to the currently active scene. */
-		template<class S> S* GetScene() {
-			return dynamic_cast<S*>(_scene.get());
-		}
+		inline static Application& Get() { return *_singletonInstance; };
 
 	private:
 		void OnEvent(IEvent*);
-		std::shared_ptr<Scene> _scene;
+		bool OnWindowClose(WindowCloseEvent*);
+		bool OnWindowResize(WindowResizeEvent*);
 
+		void Run(); // Used in main
+
+		std::unique_ptr<LayerStack> _layerStack;
 		std::unique_ptr<Window> _window;
-		bool _running = true;
 
-		/* Executes the application runtime, performed automatically. Do NOT call this method. */
-		void Run();
+		bool _running = true;
 
 	private:
 		static Application* _singletonInstance;
 
 	};
 
-	// This is the user-defined entry point for the Prism Engine. The defined function must return a
-	// a heap allocated Prism::Application user-defined derived class.
-	Application* CreateApplication();
+	template <class L>
+	inline void Application::PushLayer() {
+		_layerStack->Push<L>(); //fwd
+	}
+
+	template <class L>
+	inline void Application::PushOverlay() {
+		_layerStack->PushOverlay<L>(); // fwd
+	}
+
+}
+
+namespace Prism {
+
+	Application* CreateApplication(); // dec
 
 }
