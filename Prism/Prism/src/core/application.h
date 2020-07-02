@@ -3,9 +3,11 @@
 #include <core/logger.h>
 #include <core/events.h>
 #include <core/window.h>
+#include <core/input.h>
 #include <core/layerstack.h>
+#include <core/imgui/imgui_layer.h>
 
-int main(int argc, char** argv); // fwd dec
+int main(int argc, char** argv); // fwd dec main
 
 namespace Prism {
 
@@ -36,6 +38,7 @@ namespace Prism {
 		void Run(); // Used in main
 
 		std::unique_ptr<LayerStack> _layerStack;
+		std::unique_ptr<ImGUILayer> _imguiLayer;
 		std::unique_ptr<Window> _window;
 
 		bool _running = true;

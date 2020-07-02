@@ -10,7 +10,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Includes to the project, relative to the workspace location
 include "./Prism/vendor/glfw/"
 include "./Prism/vendor/glad/"
-include "./Prism/vendor/imgui"
+include "./Prism/vendor/imgui/"
 
 project "Prism"
     location ("%{wks.name}/Prism")
@@ -113,7 +113,8 @@ project "Sandbox"
     }
 
     links {
-        "Prism"
+        "Prism",
+        "ImGui"
     }
 
     filter "system:windows"

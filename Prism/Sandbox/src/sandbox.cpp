@@ -28,7 +28,6 @@ public:
 
 	SandboxApplication() : Application(1280, 720, "Prism Engine - Sandbox") {
 		PushLayer<ExampleLayer>();
-		PushOverlay<Prism::ImGUILayer>();
 	};
 	~SandboxApplication() {};
 

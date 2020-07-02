@@ -1,8 +1,6 @@
-#include <core/application.h>
-#include <core/input.h>
-#include <imgui.h>
-
 #include <glad/glad.h>
+
+#include <core/application.h>
 
 namespace Prism {
 
@@ -16,9 +14,11 @@ namespace Prism {
 		_window = Window::Create(WindowProperties{width, height, windowTitle});
 		_window->Attach(this);
 
-		Input::_singletonInstance = new Input();
+		Input::_singletonInstance = new Input(); // glfw init before input can be init'd
 
-		_layerStack = std::make_unique<LayerStack>(LayerStack());
+		_layerStack = std::make_unique<LayerStack>();
+		_imguiLayer = std::make_unique<ImGUILayer>();
+		_layerStack->PushOverlayUnmanaged(_imguiLayer.get());
 	};
 
 	Application::~Application() {
@@ -38,11 +38,17 @@ namespace Prism {
 
 		while (_running) {
 
-			// Temporary
 			glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			for (auto layer : *_layerStack) layer->Update();
+			for (auto layer : *_layerStack)
+				layer->Update();
+
+			_imguiLayer->Begin();
+			for (auto layer : *_layerStack)
+				layer->ImGuiRender();
+			_imguiLayer->End();
+
 			_window->Update();
 		}
 
