@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <core/events.h>
 #include <core/window.h>
+#include <core/renderer/GraphicsContext.h>
 
 namespace Prism {
 
@@ -46,6 +47,7 @@ namespace Prism {
 
 		WindowData _winData;
 		GLFWwindow* _glfwWindow{ nullptr };
+		GraphicsContext* _context;
 
 	};
 

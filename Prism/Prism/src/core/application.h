@@ -7,6 +7,9 @@
 #include <core/layerstack.h>
 #include <core/imgui/imgui_layer.h>
 
+#include <core/renderer/shader.h>
+#include <core/renderer/buffer.h>
+
 int main(int argc, char** argv); // fwd dec main
 
 namespace Prism {
@@ -29,6 +32,13 @@ namespace Prism {
 		inline uint32_t GetWindowHeight() { return _window->GetHeight(); }
 
 		inline static Application& Get() { return *_singletonInstance; };
+
+	private: // Temporary debug.
+		uint32_t vao;
+		std::unique_ptr<VertexBuffer> _vertexBuffer;
+		std::unique_ptr<IndexBuffer> _indexBuffer;
+		std::unique_ptr<Shader> _basicShader;
+
 
 	private:
 		void OnEvent(IEvent*);

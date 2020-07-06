@@ -67,8 +67,9 @@ namespace Prism {
 	}
 
 	void ImGUILayer::ImGuiRender() {
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		static bool show = false;
+		if (show) ImGui::ShowDemoWindow(&show);
+		if (Input::IsKeyPressed(Key::F3)) show = true;
 	}
 
 	void ImGUILayer::Update() {

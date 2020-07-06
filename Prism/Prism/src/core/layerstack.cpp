@@ -32,7 +32,13 @@ namespace Prism {
 
 				// check if unmanaged
 				bool f = false;
-				for (auto u : _unmanagedLayers) if (u == _layers[i]) f = true;
+				for (int u = 0; u < _unmanagedLayers.size(); u++) {
+					if (_unmanagedLayers[u] == _layers[i]) {
+						// remove ref ownership from unmanaged layers.
+						_unmanagedLayers.erase(_unmanagedLayers.begin() + u);
+						f = true;
+					}
+				}
 				if (!f) delete layer; // dealloc layer
 
 				_position--;
@@ -48,7 +54,13 @@ namespace Prism {
 
 				// check if unmanaged
 				bool f = false;
-				for (auto u : _unmanagedLayers) if (u == _layers[i]) f = true;
+				for (int u = 0; u < _unmanagedLayers.size(); u++) {
+					if (_unmanagedLayers[u] == _layers[i]) {
+						// remove ref ownership from unmanaged layers.
+						_unmanagedLayers.erase(_unmanagedLayers.begin() + u);
+						f = true;
+					}
+				}
 				if (!f) delete layer; // dealloc layer
 
 				return;
