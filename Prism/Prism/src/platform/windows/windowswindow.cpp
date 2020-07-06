@@ -2,35 +2,22 @@
 #include <core/logger.h>
 #include <core/events.h>
 #include <platform/windows/windowswindow.h>
+#include <platform/opengl/oglcontext.h>
 
 #include <glad/glad.h>
 
 namespace Prism {
 
-	/* A dirty flag indicating whether or not GLFW has already been initialized. */
-	static bool dflag_GLFWInit{ false };
-
 	WindowsWindow::WindowsWindow(const WindowProperties& winprops) {
 
-		if (dflag_GLFWInit) { // Check if already init'd.
-			CORE_WARN("An attempt to initialize GLFW has been made when GLFW has already been initialized. Is this intentional?");
-			return; // Break from init.
-		}
-
-		dflag_GLFWInit = glfwInit();
-		if (!dflag_GLFWInit) { // Check init succeeded.
+		if (!glfwInit()) {
 			CORE_ERROR("GLFW was unable to initialize.");
 			throw "GLFW was unable to initialize.";
 		}
 
 		_glfwWindow = glfwCreateWindow(winprops.width, winprops.height, winprops.title.c_str(), 0, 0);
-
-		if (_glfwWindow == nullptr) { // Check if window was created.
-			dflag_GLFWInit = false; // Flip the dflag.
-			CORE_ERROR("GLFW window was unable to be created.");
-			Shutdown(); // Shutdown before throwing.
-			throw "GLFW window was unable to be created.";
-		}
+		_context = new OpenGLContext(_glfwWindow);
+		_context->Init();
 
 		// Set windata and attach it to the window for fetching later.
 		_winData.width = winprops.width;
@@ -39,18 +26,7 @@ namespace Prism {
 		_winData.callbackfn = std::bind(&WindowsWindow::Send, this, std::placeholders::_1);
 		glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), &_winData.wScale, &_winData.hScale);
 		glfwSetWindowUserPointer(_glfwWindow, &_winData);
-
-		glfwMakeContextCurrent(_glfwWindow);
-		SetVsync(true); // Enable vsync.
-
-		// Load Glad.
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		if (!status) {
-			dflag_GLFWInit = false;
-			CORE_ERROR("Glad was unable to load the process address.");
-			Shutdown();
-			throw "Glad was unable to load the process address.";
-		}
+		SetVsync(true);
 
 		// Sets the window close callback.
 		glfwSetWindowCloseCallback(_glfwWindow, [](GLFWwindow* win) {
@@ -140,8 +116,8 @@ namespace Prism {
 	}
 
 	void WindowsWindow::Update() {
-		glViewport(0, 0, _winData.width, _winData.height);
-		glfwSwapBuffers(_glfwWindow);
+		glViewport(0, 0, GetWidth(), GetHeight());
+		_context->SwapBuffers();
 		glfwPollEvents();
 	}
 

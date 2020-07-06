@@ -1,5 +1,8 @@
 #pragma once
 
+// --- Library Files -----------------------
+#include <imgui.h>
+
 // --- Core Files --------------------------
 #include <core/core.h>
 #include <core/logger.h>

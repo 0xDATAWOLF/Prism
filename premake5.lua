@@ -10,7 +10,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Includes to the project, relative to the workspace location
 include "./Prism/vendor/glfw/"
 include "./Prism/vendor/glad/"
-include "./Prism/vendor/imgui"
+include "./Prism/vendor/imgui/"
 
 project "Prism"
     location ("%{wks.name}/Prism")
@@ -59,12 +59,7 @@ project "Prism"
 
         defines {
             "PRISM_PLATFORM_WINDOWS",
-            "PRISM_BUILD_DLL",
             "GLFW_INCLUDE_NONE"
-        }
-
-        postbuildcommands {
-            ("{COPY} %{cfg.buildtarget.relpath} ../../bin/" .. outputdir .. "/Sandbox")
         }
 
     filter "configurations:Debug"
@@ -104,16 +99,19 @@ project "Sandbox"
         "./Prism/vendor/spdlog/include",
         "./Prism/Prism/src",
         "./Prism/vendor/glm/glm/",
+        "./Prism/vendor/imgui/",
     }
 
     sysincludedirs {
         "./Prism/vendor/spdlog/include/",
         "./Prism/Prism/src/",
-        "./Prism/vendor/glm/glm/"
+        "./Prism/vendor/glm/glm/",
+        "./Prism/vendor/imgui/",
     }
 
     links {
-        "Prism"
+        "Prism",
+        "ImGui"
     }
 
     filter "system:windows"

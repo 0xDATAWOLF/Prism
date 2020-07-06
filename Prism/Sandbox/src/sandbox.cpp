@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include <Prism.h>
-#include <glm.hpp>
 
 class ExampleLayer : public Prism::Layer {
 
@@ -14,12 +11,23 @@ public:
 		PRISM_INFO("ExampleLayer destructor.");
 	};
 
+	void ImGuiRender() override {
+		if (open) {
+			ImGui::Begin("Test Window", &open);
+			ImGui::Text("Test text in window.");
+			ImGui::End();
+		}
+
+		if (Prism::Input::IsKeyPressed(Prism::Key::F3)) open = true;
+	}
+
 	void Update() override {
 	
 	}
 
 protected:
 	uint16_t _count{ 0 };
+	bool open{ false };
 
 };
 
@@ -28,7 +36,6 @@ public:
 
 	SandboxApplication() : Application(1280, 720, "Prism Engine - Sandbox") {
 		PushLayer<ExampleLayer>();
-		PushOverlay<Prism::ImGUILayer>();
 	};
 	~SandboxApplication() {};
 

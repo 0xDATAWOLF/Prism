@@ -1,8 +1,5 @@
-#include <core/application.h>
-#include <core/input.h>
-#include <imgui.h>
-
 #include <glad/glad.h>
+#include <core/application.h>
 
 namespace Prism {
 
@@ -16,9 +13,57 @@ namespace Prism {
 		_window = Window::Create(WindowProperties{width, height, windowTitle});
 		_window->Attach(this);
 
-		Input::_singletonInstance = new Input();
+		Input::_singletonInstance = new Input(); // glfw init before input can be init'd
 
-		_layerStack = std::make_unique<LayerStack>(LayerStack());
+		_layerStack = std::make_unique<LayerStack>();
+		_imguiLayer = std::make_unique<ImGUILayer>();
+		_layerStack->PushOverlayUnmanaged(_imguiLayer.get());
+
+		std::string vshader = R"(
+			#version 450
+			layout(location = 0) in vec3 _pos;
+			void main() {
+				gl_Position = vec4(_pos, 1.0);
+			}
+		)";
+
+		std::string fshader = R"(
+			#version 450
+			layout(location = 0) out vec4 _color;
+			void main() {
+				_color = vec4(0.2, 0.3, 0.85, 1.0);
+			}
+		)";
+
+		_basicShader = std::make_unique<Shader>(vshader, fshader);
+
+		float vpos[9]{
+			-0.5, -0.5f, 0.0f,
+			 0.5, -0.5f, 0.0f,
+			 0.0,  0.5f, 0.0f
+		};
+
+		uint32_t ind[3]{
+			0,1,2
+		};
+
+		glCreateVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		//glCreateBuffers(1, &vbo);
+		//glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		//glBufferData(GL_ARRAY_BUFFER, sizeof(vpos), vpos, GL_STATIC_DRAW);
+		_vertexBuffer.reset(VertexBuffer::Create(sizeof(vpos),vpos));
+		_vertexBuffer->Bind();
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, 0, sizeof(float) * 3, nullptr);
+		_vertexBuffer->Unbind();
+
+		//glCreateBuffers(1, &vio);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vio);
+		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ind), ind, GL_STATIC_DRAW);
+		_indexBuffer.reset(IndexBuffer::Create(sizeof(ind), ind));
+
 	};
 
 	Application::~Application() {
@@ -38,11 +83,23 @@ namespace Prism {
 
 		while (_running) {
 
-			// Temporary
 			glClearColor(0.125f, 0.125f, 0.125f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			for (auto layer : *_layerStack) layer->Update();
+			_basicShader->Bind();
+			_vertexBuffer->Bind();
+			_indexBuffer->Bind();
+			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			_basicShader->Unbind();
+
+			for (auto layer : *_layerStack)
+				layer->Update();
+
+			_imguiLayer->Begin();
+			for (auto layer : *_layerStack)
+				layer->ImGuiRender();
+			_imguiLayer->End();
+
 			_window->Update();
 		}
 

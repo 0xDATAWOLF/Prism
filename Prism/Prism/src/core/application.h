@@ -3,9 +3,14 @@
 #include <core/logger.h>
 #include <core/events.h>
 #include <core/window.h>
+#include <core/input.h>
 #include <core/layerstack.h>
+#include <core/imgui/imgui_layer.h>
 
-int main(int argc, char** argv); // fwd dec
+#include <core/renderer/shader.h>
+#include <core/renderer/buffer.h>
+
+int main(int argc, char** argv); // fwd dec main
 
 namespace Prism {
 
@@ -28,6 +33,13 @@ namespace Prism {
 
 		inline static Application& Get() { return *_singletonInstance; };
 
+	private: // Temporary debug.
+		uint32_t vao;
+		std::unique_ptr<VertexBuffer> _vertexBuffer;
+		std::unique_ptr<IndexBuffer> _indexBuffer;
+		std::unique_ptr<Shader> _basicShader;
+
+
 	private:
 		void OnEvent(IEvent*);
 		bool OnWindowClose(WindowCloseEvent*);
@@ -36,6 +48,7 @@ namespace Prism {
 		void Run(); // Used in main
 
 		std::unique_ptr<LayerStack> _layerStack;
+		std::unique_ptr<ImGUILayer> _imguiLayer;
 		std::unique_ptr<Window> _window;
 
 		bool _running = true;

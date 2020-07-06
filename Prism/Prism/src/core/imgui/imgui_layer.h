@@ -12,20 +12,11 @@ namespace Prism {
 		virtual ~ImGUILayer();
 
 		void Update() override;
+		void ImGuiRender() override;
 
-		void OnEvent(IEvent* ev) override;
-
-		bool OnMouseButtonDown(MouseButtonDownEvent*);
-		bool OnMouseButtonReleased(MouseButtonReleasedEvent*);
-		bool OnMouseMove(MouseMoveEvent*);
-		bool OnMouseScroll(MouseScrollEvent*);
-		bool OnKeyDown(KeyDownEvent*);
-		bool OnKeyReleased(KeyReleasedEvent*);
-		bool OnKeyTyped(KeyTypedEvent*);
-		bool OnWindowResize(WindowResizeEvent*);
-
+		void Begin();
+		void End();
 	protected:
-		float _LTime;
 
 	};
 

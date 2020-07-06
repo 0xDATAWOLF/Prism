@@ -12,6 +12,8 @@ namespace Prism {
 
 		template <class L> Layer* Push();
 		template <class L> Layer* PushOverlay();
+		void PushUnmanaged(Layer*);
+		void PushOverlayUnmanaged(Layer*);
 
 		void Pop(Layer* layer);
 		void PopOverlay(Layer* layer);
@@ -27,23 +29,24 @@ namespace Prism {
 		std::vector<Layer*>::const_reverse_iterator crend() const noexcept { return _layers.crend(); }
 
 	protected:
+		std::vector<Layer*> _unmanagedLayers; // Ref only
 		std::vector<Layer*> _layers;
 		uint16_t _position;
 
 	};
 
 	template <class L>
-	inline Layer* LayerStack::PushOverlay() {
-		Layer* layer = new L();
-		_layers.emplace_back(layer); // don't bump position, always front layer
-		return layer;
-	}
-
-	template <class L>
 	inline Layer* LayerStack::Push() {
 		Layer* layer = new L();
 		_layers.emplace(_layers.begin() + _position, layer);
 		_position++;
+		return layer;
+	}
+
+	template <class L>
+	inline Layer* LayerStack::PushOverlay() {
+		Layer* layer = new L();
+		_layers.emplace_back(layer);
 		return layer;
 	}
 

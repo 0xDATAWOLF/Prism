@@ -10,7 +10,8 @@ namespace Prism {
 	public:
 		inline Layer(std::string layerName = "Layer") : _name(layerName) {};
 		inline virtual ~Layer() {};
-		virtual void Update() = 0;
+		virtual void Update() {};
+		virtual void ImGuiRender() {};
 
 	protected:
 		std::string _name;
