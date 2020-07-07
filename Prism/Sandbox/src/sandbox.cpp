@@ -34,7 +34,7 @@ protected:
 class SandboxApplication : public Prism::Application {
 public:
 
-	SandboxApplication() : Application(1280, 720, "Prism Engine - Sandbox") {
+	SandboxApplication() : Application(1280, 720, "My Sandbox") {
 		PushLayer<ExampleLayer>();
 	};
 	~SandboxApplication() {};
