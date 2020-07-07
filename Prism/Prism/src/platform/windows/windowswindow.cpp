@@ -8,21 +8,20 @@
 
 namespace Prism {
 
-	WindowsWindow::WindowsWindow(const WindowProperties& winprops) {
+	WindowsWindow::WindowsWindow(uint32_t width, uint32_t height, std::string windowTitle) {
 
 		if (!glfwInit()) {
 			CORE_ERROR("GLFW was unable to initialize.");
 			throw "GLFW was unable to initialize.";
 		}
 
-		_glfwWindow = glfwCreateWindow(winprops.width, winprops.height, winprops.title.c_str(), 0, 0);
+		_glfwWindow = glfwCreateWindow(width, height, windowTitle.c_str(), 0, 0);
 		_context = new OpenGLContext(_glfwWindow);
 		_context->Init();
 
-		// Set windata and attach it to the window for fetching later.
-		_winData.width = winprops.width;
-		_winData.height = winprops.height;
-		_winData.title = winprops.title;
+		_winData.width = width;
+		_winData.height = height;
+		_winData.title = windowTitle;
 		_winData.callbackfn = std::bind(&WindowsWindow::Send, this, std::placeholders::_1);
 		glfwGetMonitorContentScale(glfwGetPrimaryMonitor(), &_winData.wScale, &_winData.hScale);
 		glfwSetWindowUserPointer(_glfwWindow, &_winData);

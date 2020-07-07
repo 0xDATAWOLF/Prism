@@ -33,19 +33,12 @@ namespace Prism {
 
 		inline static Application& Get() { return *_singletonInstance; };
 
-	private: // Temporary debug.
-		uint32_t vao;
-		std::unique_ptr<VertexBuffer> _vertexBuffer;
-		std::unique_ptr<IndexBuffer> _indexBuffer;
-		std::unique_ptr<Shader> _basicShader;
-
-
 	private:
 		void OnEvent(IEvent*);
 		bool OnWindowClose(WindowCloseEvent*);
 		bool OnWindowResize(WindowResizeEvent*);
 
-		void Run(); // Used in main
+		void Run();
 
 		std::unique_ptr<LayerStack> _layerStack;
 		std::unique_ptr<ImGUILayer> _imguiLayer;
@@ -55,6 +48,19 @@ namespace Prism {
 
 	private:
 		static Application* _singletonInstance;
+
+	// ------------------------------------------------------------------ \\
+	// --- Temporary ---------------------------------------------------- //
+	// ------------------------------------------------------------------ \\
+	private:
+		uint32_t _vao;
+		std::unique_ptr<Shader> _basicShader;
+		std::unique_ptr<VertexBuffer> _vertexBuffer;
+		std::unique_ptr<VertexBuffer> _colorBuffer;
+		std::unique_ptr<IndexBuffer> _indexBuffer;
+	// ------------------------------------------------------------------ //
+	// --- End ---------------------------------------------------------- \\
+	// ------------------------------------------------------------------ //
 
 	};
 

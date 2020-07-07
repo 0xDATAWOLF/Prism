@@ -8,7 +8,7 @@ namespace Prism {
 		virtual ~VertexBuffer() {};
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
-		static VertexBuffer* Create(uint32_t, float*);
+		static VertexBuffer* Create(float*, uint32_t);
 	};
 
 	class IndexBuffer {
@@ -16,7 +16,7 @@ namespace Prism {
 		virtual ~IndexBuffer() {};
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
-		static IndexBuffer* Create(uint32_t, uint32_t*);
+		static IndexBuffer* Create(uint32_t*, uint32_t);
 	};
 
 }

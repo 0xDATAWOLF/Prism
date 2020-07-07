@@ -2,8 +2,8 @@
 
 namespace Prism {
 
-	std::shared_ptr<spdlog::logger> PrismLogger::_clientLogger;
-	std::shared_ptr<spdlog::logger> PrismLogger::_engineLogger;
+	inline std::shared_ptr<spdlog::logger> PrismLogger::_clientLogger;
+	inline std::shared_ptr<spdlog::logger> PrismLogger::_engineLogger;
 
 	void PrismLogger::Init() {
 		spdlog::set_pattern("%^[%T.%e][%n][%l][thread %t]%$ : %v"); // set pattern
@@ -17,7 +17,7 @@ namespace Prism {
 		return _clientLogger;
 	};
 
-	std::shared_ptr<spdlog::logger> & PrismLogger::GetEngineLogger() {
+	std::shared_ptr<spdlog::logger>& PrismLogger::GetEngineLogger() {
 		return _engineLogger;
 	}
 

@@ -3,12 +3,12 @@
 
 namespace Prism {
 
-	VertexBuffer* VertexBuffer::Create(uint32_t size, float* arr) {
-		return new OpenGLVertexBuffer(size, arr);
+	VertexBuffer* VertexBuffer::Create(float* arr, uint32_t size) {
+		return new OpenGLVertexBuffer(arr, size);
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t size, uint32_t* arr) {
-		return new OpenGLIndexBuffer(size, arr);
+	IndexBuffer* IndexBuffer::Create(uint32_t* arr, uint32_t size) {
+		return new OpenGLIndexBuffer(arr, size);
 	}
 
 }

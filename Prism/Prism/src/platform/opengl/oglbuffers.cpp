@@ -5,8 +5,9 @@ namespace Prism {
 
 	// -------------------------------------------------------------------------
 	// --- OpenGlVertexBuffer --------------------------------------------------
+	// -------------------------------------------------------------------------
 
-	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size, float* arr) {
+	OpenGLVertexBuffer::OpenGLVertexBuffer(float* arr, uint32_t size) {
 		glCreateBuffers(1, &_vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, _vbo);
 		glBufferData(GL_ARRAY_BUFFER, size, arr, GL_STATIC_DRAW);
@@ -29,8 +30,9 @@ namespace Prism {
 
 	// -------------------------------------------------------------------------
 	// --- OpenGLIndexBuffer ---------------------------------------------------
+	// -------------------------------------------------------------------------
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t size, uint32_t* arr) {
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* arr, uint32_t size) {
 		glCreateBuffers(1, &_ibo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, arr, GL_STATIC_DRAW);

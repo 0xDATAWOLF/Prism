@@ -6,7 +6,7 @@ namespace Prism {
 	class OpenGLVertexBuffer : public VertexBuffer {
 
 	public:
-		OpenGLVertexBuffer(uint32_t, float*);
+		OpenGLVertexBuffer(float*, uint32_t);
 		virtual ~OpenGLVertexBuffer();
 
 		void Bind() const;
@@ -20,7 +20,7 @@ namespace Prism {
 	class OpenGLIndexBuffer : public IndexBuffer {
 
 	public:
-		OpenGLIndexBuffer(uint32_t, uint32_t*);
+		OpenGLIndexBuffer(uint32_t*, uint32_t);
 		virtual ~OpenGLIndexBuffer();
 
 		void Bind() const;
