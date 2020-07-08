@@ -4,6 +4,25 @@
 
 namespace Prism {
 
+	GLenum ShaderDataTypeToOpenGLBaseType(BufferLayoutType type) {
+		switch (type) {
+			case Prism::BufferLayoutType::Float1:    return GL_FLOAT;
+			case Prism::BufferLayoutType::Float2:   return GL_FLOAT;
+			case Prism::BufferLayoutType::Float3:   return GL_FLOAT;
+			case Prism::BufferLayoutType::Float4:   return GL_FLOAT;
+			case Prism::BufferLayoutType::Mat3:     return GL_FLOAT;
+			case Prism::BufferLayoutType::Mat4:     return GL_FLOAT;
+			case Prism::BufferLayoutType::Int1:      return GL_INT;
+			case Prism::BufferLayoutType::Int2:     return GL_INT;
+			case Prism::BufferLayoutType::Int3:     return GL_INT;
+			case Prism::BufferLayoutType::Int4:     return GL_INT;
+			case Prism::BufferLayoutType::Bool:     return GL_BOOL;
+		}
+
+		PRISM_ASSERT(false, "Unknown ShaderDataType!");
+		return 0;
+	}
+
 	Application* Application::_singletonInstance = nullptr;
 
 	Application::Application(uint32_t width, uint32_t height, std::string windowTitle) {
@@ -20,23 +39,44 @@ namespace Prism {
 		_layerStack->PushOverlayUnmanaged(_imguiLayer.get());
 
 		float v[]{
-			-0.5, -0.5f, 0.0f,
-			 0.5, -0.5f, 0.0f,
-			 0.0,  0.5f, 0.0f
-		};
-
-		float c[]{
-			1.0, 0.0, 0.0, 1.0,
-			0.0, 1.0, 0.0, 1.0,
-			0.0, 0.0, 1.0, 1.0
+			-0.5, -0.5f, 0.0f, 0.8, 0.3, 0.2, 1.0,
+			 0.5, -0.5f, 0.0f, 0.2, 0.8, 0.3, 1.0,
+			 0.0,  0.5f, 0.0f, 0.3, 0.2, 0.8, 1.0
 		};
 
 		uint32_t i[]{
 			0, 1, 2
 		};
 
-		_basicShader.reset(Shader::Create());
+		glCreateVertexArrays(1, &_vao);
+		glBindVertexArray(_vao);
 
+		_vertexBuffer.reset(VertexBuffer::Create(v, sizeof(v)));
+
+		{
+			BufferLayout basicLayout = {
+				{ "VertexBuffer", BufferLayoutType::Float3, false },
+				{ "ColorBuffer", BufferLayoutType::Float4, false }
+			};
+			_vertexBuffer->SetLayout(basicLayout);
+		}
+
+		uint32_t index = 0;
+		const auto& layout = _vertexBuffer->GetLayout();
+		for (const auto& element : layout) {
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index,
+				element.count,
+				ShaderDataTypeToOpenGLBaseType(element.type),
+				element.normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)element.offset);
+			index++;
+		}
+
+		_indexBuffer.reset(IndexBuffer::Create(i, sizeof(i)));
+
+		_basicShader.reset(Shader::Create());
 		std::string vertexShader = R"(
 			#version 450
 			layout(location = 0) in vec3 _pos;
@@ -61,23 +101,6 @@ namespace Prism {
 		_basicShader->AddShaderSource(fragmentShader, ShaderType::Pixel);
 		_basicShader->Compile();
 
-		glCreateVertexArrays(1, &_vao);
-		glBindVertexArray(_vao);
-
-		_vertexBuffer.reset(VertexBuffer::Create(v, sizeof(v)));
-		_vertexBuffer->Bind();
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, 0, sizeof(float) * 3, nullptr);
-		_vertexBuffer->Unbind();
-
-		_colorBuffer.reset(VertexBuffer::Create(c, sizeof(c)));
-		_colorBuffer->Bind();
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 4, GL_FLOAT, 0, sizeof(float) * 4, nullptr);
-		_colorBuffer->Unbind();
-
-		_indexBuffer.reset(IndexBuffer::Create(i, sizeof(i)));
-
 	};
 
 	Application::~Application() {
@@ -101,7 +124,6 @@ namespace Prism {
 
 			_basicShader->Bind();
 			_vertexBuffer->Bind();
-			_colorBuffer->Bind();
 			_indexBuffer->Bind();
 			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 

@@ -11,9 +11,12 @@ namespace Prism {
 
 		void Bind() const;
 		void Unbind() const;
+		virtual const BufferLayout& GetLayout() const override { return _bufferLayout; }
+		virtual void SetLayout(const BufferLayout& layout) override { _bufferLayout = layout; }
 
 	protected:
 		uint32_t _vbo;
+		BufferLayout _bufferLayout;
 
 	};
 

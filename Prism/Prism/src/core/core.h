@@ -10,6 +10,13 @@
 #include <string>
 #include <functional>
 
+#include <core/logger.h>
+
+#ifndef _PRISM_ASSERT_MACRO
+	#define _PRISM_ASSERT_MACRO
+	#define PRISM_ASSERT(a,b) if (a) CORE_ERROR("{}",b); __debugbreak()
+#endif
+
 // Platform windows.
 #ifdef PRISM_PLATFORM_WINDOWS
 	// No platform dependant macros are defined yet.
