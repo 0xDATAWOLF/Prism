@@ -45,7 +45,9 @@ namespace Prism {
 		std::unique_ptr<Window> _window;
 
 		std::shared_ptr<VertexArray> _vertexArray;
+		std::shared_ptr<VertexArray> _vertexArray2;
 		std::shared_ptr<Shader> _basicShader;
+		std::shared_ptr<Shader> _basicShader2;
 
 		bool _running = true;
 
