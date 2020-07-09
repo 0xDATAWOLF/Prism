@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <core/application.h>
 
+#include <core/renderer/buffer.h>
+
 namespace Prism {
 
 	Application* Application::_singletonInstance = nullptr;
@@ -19,69 +21,55 @@ namespace Prism {
 		_imguiLayer = std::make_unique<ImGUILayer>();
 		_layerStack->PushOverlayUnmanaged(_imguiLayer.get());
 
-		float v[]{
-			-0.5, -0.5f, 0.0f,
-			 0.5, -0.5f, 0.0f,
-			 0.0,  0.5f, 0.0f
+		float vb[]{
+			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.3f, 1.0f,
+			0.5f, -0.5f, 0.0f, 0.2f, 0.8f, 0.3f, 1.0f,
+			0.0f, 0.5f, 0.0f, 0.3f, 0.2f, 0.8f, 1.0f
 		};
 
-		float c[]{
-			1.0, 0.0, 0.0, 1.0,
-			0.0, 1.0, 0.0, 1.0,
-			0.0, 0.0, 1.0, 1.0
-		};
+		uint32_t ib[]{ 0, 1, 2 };
 
-		uint32_t i[]{
-			0, 1, 2
-		};
+		_vertexArray.reset(VertexArray::Create());
+
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(sizeof(vb), vb));
+		vertexBuffer->SetLayout({
+			{ "VertexBuffer", BufferElementType::Float3 },
+			{ "ColorBuffer", BufferElementType::Float4 }
+		});
+
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(sizeof(ib), ib));
+
+		_vertexArray->AddVertexBuffer(vertexBuffer);
+		_vertexArray->SetIndexBuffer(indexBuffer);
 
 		_basicShader.reset(Shader::Create());
-
 		std::string vertexShader = R"(
-			#version 450
-			layout(location = 0) in vec3 _pos;
-			layout(location = 1) in vec4 _col;
-			out vec4 _color;
-			void main() {
-				gl_Position = vec4(_pos, 1.0);
-				_color = _col;
-			}
+		#version 450 core
+		layout(location = 0) in vec3 _aPosition;
+		layout(location = 1) in vec4 _aColor;
+		out vec4 _color;
+		void main() {
+			gl_Position = vec4(_aPosition, 1.0);
+			_color = _aColor;
+		}
 		)";
-
 		std::string fragmentShader = R"(
-			#version 450
-			in vec4 _color;
-			out vec4 color;
-			void main() {
-				color = _color;
-			}
+		#version 450 core
+		in vec4 _color;
+		out vec4 color;
+		void main() {
+			color = _color;
+		}
 		)";
-
 		_basicShader->AddShaderSource(vertexShader, ShaderType::Vertex);
 		_basicShader->AddShaderSource(fragmentShader, ShaderType::Pixel);
-		_basicShader->Compile();
-
-		glCreateVertexArrays(1, &_vao);
-		glBindVertexArray(_vao);
-
-		_vertexBuffer.reset(VertexBuffer::Create(v, sizeof(v)));
-		_vertexBuffer->Bind();
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, 0, sizeof(float) * 3, nullptr);
-		_vertexBuffer->Unbind();
-
-		_colorBuffer.reset(VertexBuffer::Create(c, sizeof(c)));
-		_colorBuffer->Bind();
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 4, GL_FLOAT, 0, sizeof(float) * 4, nullptr);
-		_colorBuffer->Unbind();
-
-		_indexBuffer.reset(IndexBuffer::Create(i, sizeof(i)));
+		_basicShader->CompileShaders();
 
 	};
 
 	Application::~Application() {
-		CORE_INFO("Prism is shutting down.");
 		delete Input::_singletonInstance;
 	};
 
@@ -100,12 +88,10 @@ namespace Prism {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			_basicShader->Bind();
-			_vertexBuffer->Bind();
-			_colorBuffer->Bind();
-			_indexBuffer->Bind();
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			_vertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, _vertexArray->GetIndexBuffer()->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 
-			for (auto layer : *_layerStack)
+			for (auto& layer : *_layerStack)
 				layer->Update();
 
 			_imguiLayer->Begin();

@@ -1,14 +1,35 @@
 #include <core/renderer/buffer.h>
-#include <platform/opengl/oglbuffers.h>
+#include <platform/opengl/ogl_buffer.h>
 
 namespace Prism {
 
-	VertexBuffer* VertexBuffer::Create(float* arr, uint32_t size) {
-		return new OpenGLVertexBuffer(arr, size);
+	// -------------------------------------------------------
+	// --- Buffer Layout -------------------------------------
+	// -------------------------------------------------------
+
+	void BufferLayout::RecalculateLayout() {
+		uint32_t offset = 0;
+		for (auto& element : _elements) {
+			uint32_t size = BufferElement::ElementTypeSize(element.type);
+			element.offset = offset;
+			_elementStride += size;
+			offset += size;
+		}
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* arr, uint32_t size) {
-		return new OpenGLIndexBuffer(arr, size);
+	// -------------------------------------------------------
+	// --- Vertex Buffer -------------------------------------
+	// -------------------------------------------------------
+
+	VertexBuffer* VertexBuffer::Create(uint32_t size, float* vertices) {
+		return new OpenGLVertexBuffer(size, vertices);
 	}
 
+	// -------------------------------------------------------
+	// --- IndexBuffer ---------------------------------------
+	// -------------------------------------------------------
+
+	IndexBuffer* IndexBuffer::Create(uint32_t size, uint32_t* indices) {
+		return new OpenGLIndexBuffer(size, indices);
+	}
 }

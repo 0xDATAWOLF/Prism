@@ -8,7 +8,7 @@
 #include <core/imgui/imgui_layer.h>
 
 #include <core/renderer/shader.h>
-#include <core/renderer/buffer.h>
+#include <core/renderer/vertexarray.h>
 
 int main(int argc, char** argv); // fwd dec main
 
@@ -44,23 +44,13 @@ namespace Prism {
 		std::unique_ptr<ImGUILayer> _imguiLayer;
 		std::unique_ptr<Window> _window;
 
+		std::shared_ptr<VertexArray> _vertexArray;
+		std::shared_ptr<Shader> _basicShader;
+
 		bool _running = true;
 
 	private:
 		static Application* _singletonInstance;
-
-	// ------------------------------------------------------------------ \\
-	// --- Temporary ---------------------------------------------------- //
-	// ------------------------------------------------------------------ \\
-	private:
-		uint32_t _vao;
-		std::unique_ptr<Shader> _basicShader;
-		std::unique_ptr<VertexBuffer> _vertexBuffer;
-		std::unique_ptr<VertexBuffer> _colorBuffer;
-		std::unique_ptr<IndexBuffer> _indexBuffer;
-	// ------------------------------------------------------------------ //
-	// --- End ---------------------------------------------------------- \\
-	// ------------------------------------------------------------------ //
 
 	};
 
