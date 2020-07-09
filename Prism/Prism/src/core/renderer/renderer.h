@@ -1,18 +1,20 @@
-#include <core/core.h>
+#pragma once
 
 namespace Prism {
 
-	enum class RendererType {
-		OpenGL = 0,
-		Vulkan = 1,
-		DirectX12 = 2,
-		Metal = 3
-	};
+	// -------------------------------------------------------
+	// --- Renderer ------------------------------------------
+	// -------------------------------------------------------
+
+	enum class RendererAPI { OpenGL = 0, Vulkan = 1, DirectX12 = 2, Metal = 3 };
 
 	class Renderer {
 
 	public:
-		static RendererType GetRenderer();
+		Renderer() {};
+		virtual ~Renderer() {};
+
+		static RendererAPI GetRendererAPI() { return RendererAPI::OpenGL; };
 
 	};
 

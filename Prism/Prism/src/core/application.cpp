@@ -2,26 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <core/application.h>
 
+#include <core/renderer/buffer.h>
+
 namespace Prism {
-
-	GLenum ShaderDataTypeToOpenGLBaseType(BufferLayoutType type) {
-		switch (type) {
-			case Prism::BufferLayoutType::Float1:    return GL_FLOAT;
-			case Prism::BufferLayoutType::Float2:   return GL_FLOAT;
-			case Prism::BufferLayoutType::Float3:   return GL_FLOAT;
-			case Prism::BufferLayoutType::Float4:   return GL_FLOAT;
-			case Prism::BufferLayoutType::Mat3:     return GL_FLOAT;
-			case Prism::BufferLayoutType::Mat4:     return GL_FLOAT;
-			case Prism::BufferLayoutType::Int1:      return GL_INT;
-			case Prism::BufferLayoutType::Int2:     return GL_INT;
-			case Prism::BufferLayoutType::Int3:     return GL_INT;
-			case Prism::BufferLayoutType::Int4:     return GL_INT;
-			case Prism::BufferLayoutType::Bool:     return GL_BOOL;
-		}
-
-		PRISM_ASSERT(false, "Unknown ShaderDataType!");
-		return 0;
-	}
 
 	Application* Application::_singletonInstance = nullptr;
 
@@ -38,73 +21,55 @@ namespace Prism {
 		_imguiLayer = std::make_unique<ImGUILayer>();
 		_layerStack->PushOverlayUnmanaged(_imguiLayer.get());
 
-		float v[]{
-			-0.5, -0.5f, 0.0f, 0.8, 0.3, 0.2, 1.0,
-			 0.5, -0.5f, 0.0f, 0.2, 0.8, 0.3, 1.0,
-			 0.0,  0.5f, 0.0f, 0.3, 0.2, 0.8, 1.0
+		float vb[]{
+			-0.5f, -0.5f, 0.0f, 0.8f, 0.2f, 0.3f, 1.0f,
+			0.5f, -0.5f, 0.0f, 0.2f, 0.8f, 0.3f, 1.0f,
+			0.0f, 0.5f, 0.0f, 0.3f, 0.2f, 0.8f, 1.0f
 		};
 
-		uint32_t i[]{
-			0, 1, 2
-		};
+		uint32_t ib[]{ 0, 1, 2 };
 
-		glCreateVertexArrays(1, &_vao);
-		glBindVertexArray(_vao);
+		_vertexArray.reset(VertexArray::Create());
 
-		_vertexBuffer.reset(VertexBuffer::Create(v, sizeof(v)));
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(sizeof(vb), vb));
+		vertexBuffer->SetLayout({
+			{ "VertexBuffer", BufferElementType::Float3 },
+			{ "ColorBuffer", BufferElementType::Float4 }
+		});
 
-		{
-			BufferLayout basicLayout = {
-				{ "VertexBuffer", BufferLayoutType::Float3, false },
-				{ "ColorBuffer", BufferLayoutType::Float4, false }
-			};
-			_vertexBuffer->SetLayout(basicLayout);
-		}
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(sizeof(ib), ib));
 
-		uint32_t index = 0;
-		const auto& layout = _vertexBuffer->GetLayout();
-		for (const auto& element : layout) {
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
-				element.count,
-				ShaderDataTypeToOpenGLBaseType(element.type),
-				element.normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)element.offset);
-			index++;
-		}
-
-		_indexBuffer.reset(IndexBuffer::Create(i, sizeof(i)));
+		_vertexArray->AddVertexBuffer(vertexBuffer);
+		_vertexArray->SetIndexBuffer(indexBuffer);
 
 		_basicShader.reset(Shader::Create());
 		std::string vertexShader = R"(
-			#version 450
-			layout(location = 0) in vec3 _pos;
-			layout(location = 1) in vec4 _col;
-			out vec4 _color;
-			void main() {
-				gl_Position = vec4(_pos, 1.0);
-				_color = _col;
-			}
+		#version 450 core
+		layout(location = 0) in vec3 _aPosition;
+		layout(location = 1) in vec4 _aColor;
+		out vec4 _color;
+		void main() {
+			gl_Position = vec4(_aPosition, 1.0);
+			_color = _aColor;
+		}
 		)";
-
 		std::string fragmentShader = R"(
-			#version 450
-			in vec4 _color;
-			out vec4 color;
-			void main() {
-				color = _color;
-			}
+		#version 450 core
+		in vec4 _color;
+		out vec4 color;
+		void main() {
+			color = _color;
+		}
 		)";
-
 		_basicShader->AddShaderSource(vertexShader, ShaderType::Vertex);
 		_basicShader->AddShaderSource(fragmentShader, ShaderType::Pixel);
-		_basicShader->Compile();
+		_basicShader->CompileShaders();
 
 	};
 
 	Application::~Application() {
-		CORE_INFO("Prism is shutting down.");
 		delete Input::_singletonInstance;
 	};
 
@@ -123,11 +88,10 @@ namespace Prism {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			_basicShader->Bind();
-			_vertexBuffer->Bind();
-			_indexBuffer->Bind();
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			_vertexArray->Bind();
+			glDrawElements(GL_TRIANGLES, _vertexArray->GetIndexBuffer()->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 
-			for (auto layer : *_layerStack)
+			for (auto& layer : *_layerStack)
 				layer->Update();
 
 			_imguiLayer->Begin();

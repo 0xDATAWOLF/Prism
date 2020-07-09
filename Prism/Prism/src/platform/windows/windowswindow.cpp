@@ -2,7 +2,7 @@
 #include <core/logger.h>
 #include <core/events.h>
 #include <platform/windows/windowswindow.h>
-#include <platform/opengl/oglcontext.h>
+#include <platform/opengl/ogl_context.h>
 
 #include <glad/glad.h>
 

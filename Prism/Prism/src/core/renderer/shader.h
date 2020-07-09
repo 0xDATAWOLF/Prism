@@ -1,25 +1,27 @@
 #pragma once
-#include <core/core.h>
+#include <string>
 
 namespace Prism {
 
-	enum class ShaderType {
-		Vertex = 0,
-		Pixel = 1
-	};
+	// -------------------------------------------------------
+	// --- Shader --------------------------------------------
+	// -------------------------------------------------------
 
-	std::string ShaderTypeToString(ShaderType);
+	enum class ShaderType { Vertex, Pixel };
 
 	class Shader {
+
 	public:
 		virtual ~Shader() {};
-		virtual void AddShaderSource(std::string, ShaderType) = 0;
-		virtual void Compile() = 0;
+
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
-		static Shader* Create();
-	};
+		virtual void AddShaderSource(std::string&, ShaderType) = 0;
+		virtual void CompileShaders() = 0;
 
+		static Shader* Create();
+
+	};
 
 }

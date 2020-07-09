@@ -4,11 +4,11 @@ class ExampleLayer : public Prism::Layer {
 
 public:
 	inline ExampleLayer() {
-		PRISM_INFO("ExampleLayer constructor.");
+
 	};
 
 	inline virtual ~ExampleLayer() {
-		PRISM_INFO("ExampleLayer destructor.");
+
 	};
 
 	void ImGuiRender() override {
