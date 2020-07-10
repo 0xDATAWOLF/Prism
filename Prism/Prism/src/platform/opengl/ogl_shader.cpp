@@ -2,6 +2,7 @@
 #include <core/logger.h>
 #include <platform/opengl/ogl_shader.h>
 #include <glad/glad.h>
+#include <gtc/type_ptr.hpp>
 
 namespace Prism {
 
@@ -90,6 +91,16 @@ namespace Prism {
 
 	void OpenGLShader::Unbind() {
 		glUseProgram(_program);
+	}
+
+	void OpenGLShader::DefineUniformMat4(const std::string& name, const glm::mat4& matrix) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) {
+			CORE_ERROR("Unable to location uniform location for {}", name);
+			return;
+		}
+
+		glUniformMatrix4fv(location, 1, 0, glm::value_ptr(matrix));
 	}
 
 }

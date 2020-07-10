@@ -71,9 +71,10 @@ namespace Prism {
 		#version 450 core
 		layout(location = 0) in vec3 _aPosition;
 		layout(location = 1) in vec4 _aColor;
+		uniform mat4 _uViewProjection;
 		out vec4 _color;
 		void main() {
-			gl_Position = vec4(_aPosition, 1.0);
+			gl_Position = _uViewProjection * vec4(_aPosition, 1.0);
 			_color = _aColor;
 		}
 		)";
@@ -88,6 +89,10 @@ namespace Prism {
 		_basicShader->AddShaderSource(vertexShader, ShaderType::Vertex);
 		_basicShader->AddShaderSource(fragmentShader, ShaderType::Pixel);
 		_basicShader->CompileShaders();
+
+		_camera.reset(new OrthographicCamera(-1.0f, 1.0f, -1.0f, 1.0f));
+		_camera->SetPosition(glm::vec3(0.5f, 0.5f, 0.0f)); // Camera position
+
 
 	};
 
@@ -110,6 +115,7 @@ namespace Prism {
 			RendererCommand::Clear();
 			Renderer::BeginScene();
 			_basicShader->Bind();
+			_basicShader->DefineUniformMat4("_uViewProjection", _camera->GetViewProjectionMatrix());
 			Renderer::Submit(_vertexArray2);
 			Renderer::Submit(_vertexArray);
 			Renderer::EndScene();

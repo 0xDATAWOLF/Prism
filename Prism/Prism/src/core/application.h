@@ -9,6 +9,7 @@
 
 #include <core/renderer/shader.h>
 #include <core/renderer/vertexarray.h>
+#include <core/renderer/camera.h>
 
 int main(int argc, char** argv); // fwd dec main
 
@@ -48,6 +49,7 @@ namespace Prism {
 		std::shared_ptr<VertexArray> _vertexArray2;
 		std::shared_ptr<Shader> _basicShader;
 		std::shared_ptr<Shader> _basicShader2;
+		std::shared_ptr<Camera> _camera;
 
 		bool _running = true;
 

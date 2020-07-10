@@ -3,6 +3,10 @@
 
 namespace Prism {
 
+	// -------------------------------------------------------
+	// --- OpenGL Renderer API -------------------------------
+	// -------------------------------------------------------
+
 	class OpenGLRendererAPI : public RendererAPI {
 	public:
 		OpenGLRendererAPI();
