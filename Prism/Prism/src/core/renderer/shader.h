@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <glm.hpp>
 
 namespace Prism {
 
@@ -19,6 +20,8 @@ namespace Prism {
 
 		virtual void AddShaderSource(std::string&, ShaderType) = 0;
 		virtual void CompileShaders() = 0;
+
+		virtual void DefineUniformMat4(const std::string&, const glm::mat4&) = 0;
 
 		static Shader* Create();
 

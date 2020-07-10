@@ -3,6 +3,10 @@
 
 namespace Prism {
 
+	// -------------------------------------------------------
+	// --- OpenGL Renderer API -------------------------------
+	// -------------------------------------------------------
+
 	OpenGLRendererAPI::OpenGLRendererAPI() {}
 	OpenGLRendererAPI::~OpenGLRendererAPI() {}
 
