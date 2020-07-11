@@ -1,19 +1,20 @@
 #pragma once
 #include <core/events.h>
+#include <core/input.h>
 
 namespace Prism {
 
 	class KeyHeldEvent : public IEvent {
 
 	public:
-		inline KeyHeldEvent(int16_t key) : _keycode(key) {};
+		inline KeyHeldEvent(Key k) : _key(k) {};
 		inline virtual ~KeyHeldEvent() {};
-		inline int16_t GetKey() { return _keycode; }
+		inline Key GetKey() { return _key; }
 
 		EVENT_CLASS_TYPE(KeyHeldEvent)
 
 	protected:
-		int16_t _keycode;
+		Key _key;
 
 	};
 

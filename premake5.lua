@@ -33,7 +33,9 @@ project "Prism"
         "%{wks.name}/%{prj.name}/src/**.h",
         "%{wks.name}/%{prj.name}/src/**.hpp",
         "%{wks.name}/%{prj.name}/src/**.cpp",
-        "%{wks.name}/%{prj.name}/src/**.c"
+        "%{wks.name}/%{prj.name}/src/**.c",
+        "%{wks.name}/vendor/stb_image/**.h",
+        "%{wks.name}/vendor/stb_image/**.cpp",
     }
 
     sysincludedirs {
@@ -42,7 +44,8 @@ project "Prism"
         "./Prism/vendor/glfw/include/",
         "./Prism/vendor/glad/include/",
         "./Prism/vendor/imgui/",
-        "./Prism/vendor/glm/glm/"
+        "./Prism/vendor/glm/glm/",
+        "./Prism/vendor/stb_image/"
     }
 
     includedirs {
@@ -51,7 +54,8 @@ project "Prism"
         "./Prism/vendor/glfw/include/",
         "./Prism/vendor/glad/include/",
         "./Prism/vendor/imgui/",
-        "./Prism/vendor/glm/glm/"
+        "./Prism/vendor/glm/glm/",
+        "./Prism/vendor/stb_image/"
     }
 
     filter "system:windows"

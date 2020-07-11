@@ -7,7 +7,7 @@ namespace Prism {
 	// --- OpenGL Renderer API -------------------------------
 	// -------------------------------------------------------
 
-	class OpenGLRendererAPI : public RendererAPI {
+	class OpenGLRendererAPI : public BaseRendererInterface {
 	public:
 		OpenGLRendererAPI();
 		virtual ~OpenGLRendererAPI();

@@ -1,6 +1,4 @@
 #pragma once
-#include <core/core.h>
-#include <core/events.h>
 #include <core/layer.h>
 
 namespace Prism {
@@ -11,7 +9,7 @@ namespace Prism {
 		ImGUILayer();
 		virtual ~ImGUILayer();
 
-		void Update() override;
+		void Update(const Timestep&) override;
 		void ImGuiRender() override;
 
 		void Begin();
@@ -20,4 +18,4 @@ namespace Prism {
 
 	};
 
-}
+};
