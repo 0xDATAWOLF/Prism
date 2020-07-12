@@ -93,14 +93,76 @@ namespace Prism {
 		glUseProgram(_program);
 	}
 
+	void OpenGLShader::DefineUniformMat3(const std::string& name, const glm::mat3& matrix) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) {
+			CORE_ERROR("Unable to get uniform location for {}", name);
+			return;
+		}
+
+		glUniformMatrix3fv(location, 1, 0, glm::value_ptr(matrix));
+	}
+
 	void OpenGLShader::DefineUniformMat4(const std::string& name, const glm::mat4& matrix) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
 		if (location == -1) {
-			CORE_ERROR("Unable to location uniform location for {}", name);
+			CORE_ERROR("Unable to get uniform location for {}", name);
 			return;
 		}
 
 		glUniformMatrix4fv(location, 1, 0, glm::value_ptr(matrix));
+	}
+
+	void OpenGLShader::DefineUniformFloat(const std::string& name, const float f) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) {
+			CORE_ERROR("Unable to get uniform location for {}", name);
+			return;
+		}
+
+		glUniform1f(location, f);
+	}
+
+	void OpenGLShader::DefineUniformFloat2(const std::string& name, const glm::vec2& v) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) {
+			CORE_ERROR("Unable to get uniform location for {}", name);
+			return;
+		}
+
+		glUniform2f(location, v.x, v.y);
+	}
+
+	void OpenGLShader::DefineUniformFloat3(const std::string& name, const glm::vec3& v) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) {
+			CORE_ERROR("Unable to get uniform location for {}", name);
+			return;
+		}
+
+		glUniform3f(location, v.x, v.y, v.z);
+
+	}
+
+	void OpenGLShader::DefineUniformFloat4(const std::string& name, const glm::vec4& v) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) {
+			CORE_ERROR("Unable to get uniform location for {}", name);
+			return;
+		}
+
+		glUniform4f(location, v.x, v.y, v.z, v.w);
+
+	}
+
+    void OpenGLShader::DefineUniformInt(const std::string& name, const int i) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) {
+			CORE_ERROR("Unable to get uniform location for {}", name);
+			return;
+		}
+
+		glUniform1i(location, i);
 	}
 
 }

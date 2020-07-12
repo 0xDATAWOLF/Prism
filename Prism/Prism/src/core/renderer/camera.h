@@ -11,6 +11,7 @@ namespace Prism {
 	public:
 		virtual ~Camera() {};
 
+		virtual const glm::vec3 GetPosition() const = 0;
 		virtual void SetPosition(glm::vec3&) = 0;
 		virtual void SetPosition(float, float, float) = 0;
 		virtual const glm::mat4 GetViewProjectionMatrix() const = 0;
@@ -25,6 +26,7 @@ namespace Prism {
 		OrthographicCamera(float, float, float, float);
 		virtual ~OrthographicCamera();
 
+		const glm::vec3 GetPosition() const { return _position; };
 		void SetPosition(glm::vec3&);
 		void SetPosition(float, float, float);
 		const glm::mat4 GetViewProjectionMatrix() const;

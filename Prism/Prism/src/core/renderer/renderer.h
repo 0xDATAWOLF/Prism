@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
+#include <core/renderer/camera.h>
 #include <core/renderer/vertexarray.h>
+#include <core/renderer/shader.h>
 #include <glm.hpp>
 
 namespace Prism {
@@ -11,9 +13,9 @@ namespace Prism {
 	// --- RendererAPI ---------------------------------------
 	// -------------------------------------------------------
 
-	class RendererAPI { // Interface class
+	class BaseRendererInterface { // Interface class
 	public:
-		virtual ~RendererAPI() {};
+		virtual ~BaseRendererInterface() {};
 		virtual void Clear() = 0;
 		virtual void SetClearColor(const glm::vec4&) = 0;
 		virtual void DrawIndexed(std::shared_ptr<VertexArray>&) = 0;
@@ -32,7 +34,7 @@ namespace Prism {
 		static void DrawIndexed(std::shared_ptr<VertexArray>& v) { _api->DrawIndexed(v); }; // fwd
 		static RendererType GetRendererType() { return _api->GetAPIType(); } // fwd
 	private:
-		static RendererAPI* _api;
+		static BaseRendererInterface* _api;
 	};
 
 
@@ -43,10 +45,13 @@ namespace Prism {
 	class Renderer { // Renderer
 	public:
 		virtual ~Renderer() {};
-		static void BeginScene() {}; // empty
+		static void BeginScene(std::shared_ptr<Camera>&);
 		static void EndScene() {}; // empty
-		static void Submit(std::shared_ptr<VertexArray>& v);
+		static void Submit(std::shared_ptr<Shader>&, std::shared_ptr<VertexArray>&, glm::mat4 transform);
 		static RendererType GetRendererType() { return RendererCommand::GetRendererType(); };
+
+	private:
+		static glm::mat4 _viewProjectionMatrix;
 
 	};
 

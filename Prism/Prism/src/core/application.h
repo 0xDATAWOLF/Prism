@@ -1,10 +1,9 @@
 #pragma once
-#include <core/core.h>
-#include <core/logger.h>
-#include <core/events.h>
 #include <core/window.h>
 #include <core/input.h>
 #include <core/layerstack.h>
+#include <core/timestep.h>
+
 #include <core/imgui/imgui_layer.h>
 
 #include <core/renderer/shader.h>
@@ -45,11 +44,7 @@ namespace Prism {
 		std::unique_ptr<ImGUILayer> _imguiLayer;
 		std::unique_ptr<Window> _window;
 
-		std::shared_ptr<VertexArray> _vertexArray;
-		std::shared_ptr<VertexArray> _vertexArray2;
-		std::shared_ptr<Shader> _basicShader;
-		std::shared_ptr<Shader> _basicShader2;
-		std::shared_ptr<Camera> _camera;
+		Timestep _timestep;
 
 		bool _running = true;
 

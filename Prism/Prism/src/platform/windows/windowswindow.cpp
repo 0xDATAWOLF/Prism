@@ -1,7 +1,7 @@
 #include <core/core.h>
 #include <core/logger.h>
-#include <core/events.h>
 #include <platform/windows/windowswindow.h>
+#include <platform/windows/windowsinput.h>
 #include <platform/opengl/ogl_context.h>
 
 #include <glad/glad.h>
@@ -54,20 +54,28 @@ namespace Prism {
 			
 			if (key == GLFW_KEY_UNKNOWN) return; // do nothing on unknown key
 
+			auto a = std::find_if(WindowsInputInterface::PrismToGLFWKeyBindings.begin(),
+				WindowsInputInterface::PrismToGLFWKeyBindings.end(),
+				[key](const std::pair<Key, uint32_t>& pair) { return pair.second == key; });
+
+			PRISM_ASSERT(a != WindowsInputInterface::PrismToGLFWKeyBindings.end(), "Unknown key found!");
+			Key k = a->first;
+
 			if (action == GLFW_PRESS) {
-				KeyDownEvent e(key);
+				KeyDownEvent e(k);
+				Input::SetKeyPressed(k);
 				windowData.callbackfn(&e);
 				return;
 			}
 
 			if (action == GLFW_REPEAT) {
-				KeyHeldEvent e(key);
+				KeyHeldEvent e(k);
 				windowData.callbackfn(&e);
 				return;
 			}
 
 			if (action == GLFW_RELEASE) {
-				KeyReleasedEvent e(key);
+				KeyReleasedEvent e(k);
 				windowData.callbackfn(&e);
 				return;
 			}
@@ -85,14 +93,23 @@ namespace Prism {
 		glfwSetMouseButtonCallback(_glfwWindow, [](GLFWwindow* win, int button, int action, int mods) {
 			WindowData& windowData = *(WindowData*)glfwGetWindowUserPointer(win);
 
+			// Convert the key.
+			auto a = std::find_if(WindowsInputInterface::PrismToGLFWMouseBtnBindings.begin(),
+				WindowsInputInterface::PrismToGLFWMouseBtnBindings.end(),
+				[button](const std::pair<MouseBtn, uint32_t>& pair) { return pair.second == button; });
+
+			PRISM_ASSERT(a != WindowsInputInterface::PrismToGLFWMouseBtnBindings.end(), "Unknown mouse button found!");
+			MouseBtn mb = a->first;
+
 			if (action == GLFW_PRESS) {
-				MouseButtonDownEvent e(button);
+				MouseButtonDownEvent e(mb);
+				Input::SetMouseBtnPressed(mb);
 				windowData.callbackfn(&e);
 				return;
 			}
 
 			if (action == GLFW_RELEASE) {
-				MouseButtonReleasedEvent e(button);
+				MouseButtonReleasedEvent e(mb);
 				windowData.callbackfn(&e);
 				return;
 			}

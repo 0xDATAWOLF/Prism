@@ -6,14 +6,14 @@ namespace Prism {
 	class KeyReleasedEvent : public IEvent {
 
 	public:
-		inline KeyReleasedEvent(int16_t key) : _keycode(key) {};
+		inline KeyReleasedEvent(Key k) : _key(k) {};
 		inline virtual ~KeyReleasedEvent() {};
-		inline int16_t GetKey() { return _keycode; }
+		inline Key GetKey() { return _key; }
 
 		EVENT_CLASS_TYPE(KeyReleasedEvent)
 
 	protected:
-		int16_t _keycode;
+		Key _key;
 
 	};
 

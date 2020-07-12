@@ -3,46 +3,64 @@
 
 namespace Prism {
 
-	enum class Key;			// fwd dec
-	enum class MouseBtn;	// fwd dec
+	enum class MouseBtn;
+	enum class Key;
+	struct KeyState { Key key; uint32_t holdframes{ 0 }; };
+	struct MouseBtnState { MouseBtn mb; uint32_t holdframes{ 0 }; };
 
-	class InputStrategy {	// Defined automatically by platform and provided to input on startup
+	class InputInterface {
 
 	public:
-		virtual bool f_IsKeyPressed(Key) = 0;
-		virtual bool f_IsKeyHeld(Key) = 0;
-		virtual bool f_IsMouseButtonPressed(MouseBtn) = 0;
-		virtual std::pair<float, float> f_GetMouseCursorPosition() = 0;
+		virtual ~InputInterface() {};
+
+		bool IsKeyPressed(Key);
+		bool IsKeyReleased(Key);
+		bool IsMouseBtnPressed(MouseBtn);
+		bool IsMouseBtnReleased(MouseBtn);
+
+		uint32_t IsKeyHeld(Key);
+		uint32_t IsMouseBtnHeld(MouseBtn);
+
+		//const std::vector<KeyState> GetCurrentFrameKeyStates() const { return _currentFrameKeys; }
+		//const std::vector<KeyState> GetLastFrameKeyStates() const { return _lastFrameKeys; }
+		//const std::vector<MouseBtnState> GetCurrentFrameMouseBtnStates() const { return _currentFrameMouseBtns; }
+		//const std::vector<MouseBtnState> GetLastFrameMouseBtnStates() const { return _lastFrameMouseBtns; }
+
+		virtual void ValidateHoldStates() = 0;
+		void SwapStates();
+
+		void SetKeyPressed(Key);
+		void SetMouseBtnPressed(MouseBtn);
+
+	protected:
+		std::vector<KeyState> _currentFrameKeys;
+		std::vector<KeyState> _lastFrameKeys;
+		std::vector<MouseBtnState> _currentFrameMouseBtns;
+		std::vector<MouseBtnState> _lastFrameMouseBtns;
+
 	};
 
-	class Input {
-
+	class Input { // Static Wrapper
 	public:
 		friend class Application;
+	public:
+		virtual ~Input() {};
+		static bool IsKeyPressed(Key k) { return _interface->IsKeyPressed(k); };
+		static bool IsKeyReleased(Key k) { return _interface->IsKeyReleased(k); };
+		static bool IsMouseBtnPressed(MouseBtn mb) { return _interface->IsMouseBtnPressed(mb); };
+		static bool IsMouseBtnReleased(MouseBtn mb) { return _interface->IsMouseBtnReleased(mb); };
 
-		inline static bool IsKeyPressed(Key key)
-			{ return _singletonInstance->_inputStrategy->f_IsKeyPressed(key); };
-		inline static bool IsKeyHeld(Key key)
-			{ return _singletonInstance->_inputStrategy->f_IsKeyHeld(key); }
-		inline static bool IsMouseButtonPressed(MouseBtn btn)
-			{ return _singletonInstance->_inputStrategy->f_IsMouseButtonPressed(btn); }
+		static uint32_t IsKeyHeld(Key k) { return _interface->IsKeyHeld(k); };
+		static uint32_t IsMouseBtnHeld(MouseBtn mb) { return _interface->IsMouseBtnHeld(mb); };
 
-		inline static float GetMouseCursorPositionX() 
-			{ auto [x, y] = _singletonInstance->_inputStrategy->f_GetMouseCursorPosition(); return x; }
-		inline static float GetMouseCursorPositionY()
-			{ auto [x, y] = _singletonInstance->_inputStrategy->f_GetMouseCursorPosition(); return y; }
-			
-		inline static std::pair<float, float> GetMouseCursorPosition()
-			{ return _singletonInstance->_inputStrategy->f_GetMouseCursorPosition(); }
+		static void SetKeyPressed(Key k) { return _interface->SetKeyPressed(k); };
+		static void SetMouseBtnPressed(MouseBtn mb) { return _interface->SetMouseBtnPressed(mb); };
 
+	private:
+		static void SwapStates() { _interface->SwapStates(); };
+		static void ValidateHoldStates() { _interface->ValidateHoldStates(); };
 
-	protected:
-		Input();
-		virtual ~Input();
-
-	protected:
-		static Input* _singletonInstance;
-		InputStrategy* _inputStrategy{ nullptr };
+		static std::shared_ptr<InputInterface> _interface;
 
 	};
 	
@@ -195,4 +213,4 @@ namespace Prism {
 		Menu = 348
 	};
 
-}
+};

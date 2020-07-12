@@ -1,9 +1,6 @@
 
 #include <core/application.h>
 #include <core/imgui/imgui_layer.h>
-
-#include <GLFW/glfw3.h>
-
 #include <imgui.h>
 #include "examples/imgui_impl_opengl3.cpp"
 #include "examples/imgui_impl_glfw.cpp"
@@ -72,8 +69,8 @@ namespace Prism {
 		if (Input::IsKeyPressed(Key::F3)) show = true;
 	}
 
-	void ImGUILayer::Update() {
-	
+	void ImGUILayer::Update(const Timestep& timestep) {
+		
 	}
 
 }
