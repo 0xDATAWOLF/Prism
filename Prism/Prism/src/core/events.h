@@ -1,5 +1,6 @@
 #pragma once
-#include <core/core.h>
+#include <string>
+#include <vector>
 
 namespace Prism {
 
@@ -90,14 +91,14 @@ namespace Prism {
 }
 
 // --- Events ------------------------------------
-#include <core/events/NullEvent.h>
-#include <core/events/WindowCloseEvent.h>
-#include <core/events/WindowResizeEvent.h>
-#include <core/events/KeyTypedEvent.h>
-#include <core/events/KeyDownEvent.h>
-#include <core/events/KeyHeldEvent.h>
-#include <core/events/KeyReleasedEvent.h>
-#include <core/events/MouseButtonDownEvent.h>
-#include <core/events/MouseButtonReleasedEvent.h>
-#include <core/events/MouseMoveEvent.h>
-#include <core/events/MouseScrollEvent.h>
+#include "events/NullEvent.h"
+#include "events/WindowCloseEvent.h"
+#include "events/WindowResizeEvent.h"
+#include "events/KeyTypedEvent.h"
+#include "events/KeyDownEvent.h"
+#include "events/KeyHeldEvent.h"
+#include "events/KeyReleasedEvent.h"
+#include "events/MouseButtonDownEvent.h"
+#include "events/MouseButtonReleasedEvent.h"
+#include "events/MouseMoveEvent.h"
+#include "events/MouseScrollEvent.h"

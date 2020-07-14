@@ -1,5 +1,5 @@
 #pragma once
-#include <core/renderer/texture.h>
+#include "renderer/texture.h"
 #include <stb_image.h>
 
 namespace Prism {

@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <core/renderer/vertexarray.h>
+#include "renderer/vertexarray.h"
 
 namespace Prism {
 

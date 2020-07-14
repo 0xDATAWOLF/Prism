@@ -1,8 +1,9 @@
 #pragma once
 #include <GLFW/glfw3.h>
-#include <core/events.h>
-#include <core/window.h>
-#include <core/renderer/GraphicsContext.h>
+
+#include "core/events.h"
+#include "core/window.h"
+#include "renderer/graphicscontext.h"
 
 namespace Prism {
 

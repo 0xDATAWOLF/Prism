@@ -1,6 +1,12 @@
+#include <fstream>
+#include <sstream>
+#include <filesystem>
+#include <iostream>
 
-#include <core/logger.h>
-#include <platform/opengl/ogl_shader.h>
+#include "core/core.h"
+#include "core/logger.h"
+#include "platform/opengl/ogl_shader.h"
+
 #include <glad/glad.h>
 #include <gtc/type_ptr.hpp>
 
@@ -8,24 +14,91 @@ namespace Prism {
 
 	static GLenum ShaderTypeToOpenGLShaderEnum(ShaderType t) {
 		switch (t) {
+			case ShaderType::Null: return 0;
 			case ShaderType::Vertex: return GL_VERTEX_SHADER;
 			case ShaderType::Pixel: return GL_FRAGMENT_SHADER;
 		}
+		PRISM_ASSERT(false, "Default condition, undefined type.");
+		return 0;
 	}
 
 	static std::string ShaderTypeToString(ShaderType t) {
 		switch (t) {
-			case ShaderType::Vertex: return "Vertex";
-			case ShaderType::Pixel: return "Pixel";
+			case ShaderType::Null: return "null";
+			case ShaderType::Vertex: return "vertex";
+			case ShaderType::Pixel: return "pixel";
 		}
+
+		return "";
+		PRISM_ASSERT(false, "Default condition, undefined type.");
 	}
 
-	OpenGLShader::OpenGLShader() {
+	static ShaderType StringToShaderType(std::string s) {
+		if (s == "vertex") return ShaderType::Vertex;
+		if (s == "fragment" || s == "pixel") return ShaderType::Pixel;
+		return ShaderType::Null;
+	}
+
+
+
+	// -------------------------------------------------------
+	// --- OpenGL Shader -------------------------------------
+	// -------------------------------------------------------
+
+	OpenGLShader::OpenGLShader(std::string& filepath) {
 		_program = glCreateProgram();
+		_shadername = std::filesystem::path(filepath).stem().string();
+		std::string src = ReadSourceFile(filepath);
+		PrecompileShader(src);
+
 	}
 
 	OpenGLShader::~OpenGLShader() {
 		glDeleteProgram(_program);
+	}
+
+	std::string OpenGLShader::ReadSourceFile(std::string& filepath) {
+
+		if (!std::filesystem::exists(filepath)) {
+			CORE_INFO("Filepath '{}' was not found.", filepath);
+			PRISM_ASSERT(false, "Shader file was not found.");
+		}
+
+		auto filecontents = std::fstream(filepath, std::ios::binary | std::ios::in);
+		if (!filecontents.is_open()) {
+			CORE_INFO("Filepath '{}' was not able to be opened.", filepath);
+			PRISM_ASSERT(false, "Shader file was not opened.");
+		}
+
+		filecontents.seekg(0, std::ios::end);
+		size_t size = filecontents.tellg();
+		std::string source(size, ' ');
+		filecontents.seekg(0);
+		filecontents.read(&source[0], size);
+		return source;
+
+	}
+
+	void OpenGLShader::PrecompileShader(std::string& source) {
+
+		const char* typeToken = "#shader";
+		size_t typeTokenLength = strlen(typeToken);
+		size_t pos = source.find(typeToken, 0);
+		while (pos != std::string::npos) {
+			size_t eol = source.find_first_of("\r\n", pos);
+			PRISM_ASSERT(eol != std::string::npos, "Syntax error");
+			size_t begin = pos + typeTokenLength + 1;
+			ShaderType type = StringToShaderType(source.substr(begin, eol - begin));
+			if (type == ShaderType::Null) PRISM_ASSERT(false, "Unknown type");
+			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
+			pos = source.find(typeToken, nextLinePos);
+			AddShaderSource(
+				source.substr(nextLinePos, pos - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos)),
+				type);
+		}
+
+		CompileShaders();
+
 	}
 
 	void OpenGLShader::AddShaderSource(std::string& source, ShaderType type) {

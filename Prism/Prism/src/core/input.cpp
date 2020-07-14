@@ -1,7 +1,7 @@
-#include <core/logger.h>
-#include <core/input.h>
+#include "core/logger.h"
+#include "core/input.h"
 
-#include <platform/windows/windowsinput.h>
+#include "platform/windows/windowsinput.h"
 
 namespace Prism {
 

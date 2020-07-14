@@ -1,6 +1,5 @@
 #pragma once
-#include <core/core.h>
-#include <core/events.h>
+#include "core/events.h"
 
 namespace Prism {
 

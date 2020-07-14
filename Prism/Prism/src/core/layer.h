@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <core/events.h>
-#include <core/timestep.h>
+#include "core/events.h"
+#include "core/timestep.h"
 
 namespace Prism {
 

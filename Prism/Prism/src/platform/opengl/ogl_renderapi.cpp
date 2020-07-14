@@ -1,4 +1,4 @@
-#include <platform/opengl/ogl_renderapi.h>
+#include "platform/opengl/ogl_renderapi.h"
 #include <glad/glad.h>
 
 namespace Prism {
@@ -7,22 +7,27 @@ namespace Prism {
 	// --- OpenGL Renderer API -------------------------------
 	// -------------------------------------------------------
 
-	OpenGLRendererAPI::OpenGLRendererAPI() {}
-	OpenGLRendererAPI::~OpenGLRendererAPI() {}
+	OpenGLRendererInterface::OpenGLRendererInterface() {}
+	OpenGLRendererInterface::~OpenGLRendererInterface() {}
 
-	void OpenGLRendererAPI::Clear() {
+	void OpenGLRendererInterface::Init() {
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	}
+
+	void OpenGLRendererInterface::Clear() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::SetClearColor(const glm::vec4& c) {
+	void OpenGLRendererInterface::SetClearColor(const glm::vec4& c) {
 		glClearColor(c.r, c.g, c.b, c.a);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(std::shared_ptr<VertexArray>& va) {
+	void OpenGLRendererInterface::DrawIndexed(std::shared_ptr<VertexArray>& va) {
 		glDrawElements(GL_TRIANGLES, va->GetIndexBuffer()->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 	}
 
-	RendererType OpenGLRendererAPI::GetAPIType() {
+	RendererType OpenGLRendererInterface::GetAPIType() {
 		return RendererType::OpenGL;
 	}
 
