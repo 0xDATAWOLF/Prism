@@ -1,6 +1,7 @@
 #pragma once
-#include <core/logger.h>
-#include <core/renderer/graphicscontext.h>
+#include "core/logger.h"
+#include "renderer/graphicscontext.h"
+
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 

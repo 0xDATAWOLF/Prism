@@ -1,6 +1,10 @@
 #pragma once
 #include <vector>
-#include <core/renderer/shader.h>
+
+#include "renderer/shader.h"
+
+#include <glm.hpp>
+
 
 namespace Prism {
 
@@ -11,13 +15,11 @@ namespace Prism {
 	class OpenGLShader : public Shader {
 
 	public:
-		OpenGLShader();
+		OpenGLShader(std::string& filepath);
 		virtual ~OpenGLShader();
-
-		virtual void AddShaderSource(std::string&, ShaderType) override;
-		virtual void CompileShaders() override;
 		virtual void Bind() override;
 		virtual void Unbind() override;
+		virtual std::string GetName() const override { return _shadername; };
 
 		virtual void DefineUniformMat3(const std::string&, const glm::mat3&);
 		virtual void DefineUniformMat4(const std::string&, const glm::mat4&);
@@ -28,8 +30,15 @@ namespace Prism {
 		virtual void DefineUniformInt(const std::string&, const int);
 
 	private:
+		std::string ReadSourceFile(std::string&);
+		void PrecompileShader(std::string&);
+		void AddShaderSource(std::string&, ShaderType);
+		void CompileShaders();
+
+	private:
 		uint32_t _program { 0 };
 		std::vector<uint32_t> _shaders;
+		std::string _shadername{ "null" };
 
 	};
 

@@ -1,6 +1,5 @@
 #include "windowsinput.h"
-
-#include <core/application.h>
+#include "application.h"
 
 namespace Prism {
 

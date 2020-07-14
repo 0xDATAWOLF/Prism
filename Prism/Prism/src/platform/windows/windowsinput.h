@@ -1,6 +1,8 @@
 #pragma once
 #include <map>
-#include <core/input.h>
+
+#include "core/input.h"
+
 #include <GLFW/glfw3.h>
 
 

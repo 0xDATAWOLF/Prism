@@ -1,6 +1,6 @@
-#include <core/logger.h>
-#include <core/window.h>
 
+#include "core/window.h"
+#include "core/logger.h"
 
 #ifdef PRISM_PLATFORM_WINDOWS
 	#include <platform/windows/windowswindow.h>

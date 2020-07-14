@@ -1,8 +1,16 @@
 #include <Prism.h>
+
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 
 class ExampleLayer : public Prism::Layer {
+
+private:
+	std::shared_ptr<Prism::Texture2D> _texture;
+	std::shared_ptr<Prism::Texture2D> _alphaTexture;
+	std::shared_ptr<Prism::VertexArray> _vertexArray;
+	std::shared_ptr<Prism::Camera> _camera;
+	Prism::ShaderLibrary Shaders;
 
 public:
 	inline ExampleLayer() {
@@ -32,45 +40,17 @@ public:
 		_vertexArray->AddVertexBuffer(vertexBuffer2);
 		_vertexArray->SetIndexBuffer(indexBuffer2);
 
-		_basicShader.reset(Prism::Shader::Create());
-		std::string vertexShader = R"(
-		#version 410 core
-		layout(location = 0) in vec3 _aPosition;
-		layout(location = 1) in vec2 _aTexCoord;
+		Shaders.Add("assets/shaders/basicshader.glsl");
+		std::shared_ptr<Prism::Shader> _basicShader = Shaders.Get("basicshader");
 
-		uniform mat4 _uViewProjection;
-		uniform mat4 _uTransform;
+		_texture.reset(Prism::Texture2D::Create("assets/sprites/16x16_Tilesprite.png"));
+		_alphaTexture.reset(Prism::Texture2D::Create("assets/sprites/16x16_Alphasprite.png"));
 
-		out vec2 _texCoord;
-
-		void main() {
-			gl_Position = _uViewProjection * _uTransform * vec4(_aPosition, 1.0);
-			_texCoord = _aTexCoord;
-		}
-		)";
-		std::string fragmentShader = R"(
-		#version 410 core
-		in vec2 _texCoord;
-
-		uniform sampler2D _uTexture;
-
-		out vec4 color;
-
-		void main() {
-			color = texture(_uTexture, _texCoord);
-		}
-		)";
-
-		_basicShader->AddShaderSource(vertexShader, Prism::ShaderType::Vertex);
-		_basicShader->AddShaderSource(fragmentShader, Prism::ShaderType::Pixel);
-		_basicShader->CompileShaders();
-
-		_texture.reset(Prism::Texture2D::Create("assets/16x16_Tilesprite.png"));
 		std::dynamic_pointer_cast<Prism::OpenGLShader>(_basicShader)->Bind();
 		std::dynamic_pointer_cast<Prism::OpenGLShader>(_basicShader)->DefineUniformInt("_uTexture", 0);
 
-		_camera.reset(new Prism::OrthographicCamera(-3.2f, 3.2f, -1.8f, 1.8f));
-		_camera->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f)); // Camera position
+		_camera.reset(new Prism::OrthographicCamera((-1.6f)*5, (1.6f)*5, (-0.9f)*5, (0.9f)*5));
+		_camera->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 		
 	};
 
@@ -78,9 +58,8 @@ public:
 	void ImGuiRender() override {}
 
 	void Update(const Prism::Timestep& timestep) override {
-
 		glm::vec3 cameraPos = _camera->GetPosition();
-		float movement = 1.0;
+		float movement = 5.0;
 		if (Prism::Input::IsKeyPressed(Prism::Key::W)) { cameraPos = glm::vec3(cameraPos.x, cameraPos.y + (movement*timestep.GetDeltaInSeconds()), cameraPos.z); }
 		if (Prism::Input::IsKeyPressed(Prism::Key::A)) { cameraPos = glm::vec3(cameraPos.x - (movement * timestep.GetDeltaInSeconds()), cameraPos.y, cameraPos.z); }
 		if (Prism::Input::IsKeyPressed(Prism::Key::S)) { cameraPos = glm::vec3(cameraPos.x, cameraPos.y - (movement * timestep.GetDeltaInSeconds()), cameraPos.z); }
@@ -92,16 +71,14 @@ public:
 		Prism::Renderer::BeginScene(_camera);
 
 		_texture->Bind();
-		Prism::Renderer::Submit(_basicShader, _vertexArray, glm::translate(glm::mat4(1.0), glm::vec3(0.0,0.0,0.0)));
+		Prism::Renderer::Submit(Shaders.Get("basicshader"), _vertexArray, glm::translate(glm::mat4(1.0), glm::vec3(0.0,0.0,0.0)));
+
+		_alphaTexture->Bind();
+		Prism::Renderer::Submit(Shaders.Get("basicshader"), _vertexArray, glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, 0.0)));
 
 		Prism::Renderer::EndScene();
-	}
 
-private:
-	std::shared_ptr<Prism::Texture2D> _texture;
-	std::shared_ptr<Prism::VertexArray> _vertexArray;
-	std::shared_ptr<Prism::Shader> _basicShader;
-	std::shared_ptr<Prism::Camera> _camera;
+	}
 };
 
 class SandboxApplication : public Prism::Application {

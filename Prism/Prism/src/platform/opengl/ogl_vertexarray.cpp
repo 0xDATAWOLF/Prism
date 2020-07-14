@@ -1,4 +1,5 @@
-#include <platform/opengl/ogl_vertexarray.h>
+#include "platform/opengl/ogl_vertexarray.h"
+
 #include <glad/glad.h>
 
 namespace Prism {

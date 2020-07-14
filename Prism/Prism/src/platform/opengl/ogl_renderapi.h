@@ -1,5 +1,5 @@
 #pragma once
-#include <core/renderer/renderer.h>
+#include "renderer/renderer.h"
 
 namespace Prism {
 
@@ -7,11 +7,12 @@ namespace Prism {
 	// --- OpenGL Renderer API -------------------------------
 	// -------------------------------------------------------
 
-	class OpenGLRendererAPI : public BaseRendererInterface {
+	class OpenGLRendererInterface : public BaseRendererInterface {
 	public:
-		OpenGLRendererAPI();
-		virtual ~OpenGLRendererAPI();
+		OpenGLRendererInterface();
+		virtual ~OpenGLRendererInterface();
 
+		virtual void Init();
 		virtual void Clear();
 		virtual void SetClearColor(const glm::vec4&);
 		virtual void DrawIndexed(std::shared_ptr<VertexArray>&);

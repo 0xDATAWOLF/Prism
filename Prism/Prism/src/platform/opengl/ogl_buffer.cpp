@@ -1,4 +1,5 @@
-#include <platform/opengl/ogl_buffer.h>
+#include "platform/opengl/ogl_buffer.h"
+
 #include <glad/glad.h>
 
 namespace Prism {

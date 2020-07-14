@@ -1,5 +1,6 @@
 #pragma once
-#include <core/renderer/buffer.h>
+#include "renderer/buffer.h"
+
 #include <glad/glad.h>
 
 namespace Prism {

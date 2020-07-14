@@ -1,8 +1,8 @@
-#include <core/core.h>
-#include <core/logger.h>
-#include <platform/windows/windowswindow.h>
-#include <platform/windows/windowsinput.h>
-#include <platform/opengl/ogl_context.h>
+#include "core/core.h"
+#include "core/logger.h"
+#include "platform/windows/windowswindow.h"
+#include "platform/windows/windowsinput.h"
+#include "platform/opengl/ogl_context.h"
 
 #include <glad/glad.h>
 

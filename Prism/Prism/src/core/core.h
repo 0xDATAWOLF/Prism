@@ -1,14 +1,24 @@
 #pragma once
 
-#include <core/logger.h>
+// PRISM_ASSERT macro works only on windows
 #ifndef _PRISM_ASSERT_MACRO
-	#define _PRISM_ASSERT_MACRO
-	#define PRISM_ASSERT(a,b) if (!(a)) { CORE_ERROR("{}",b); __debugbreak(); }
+
+	// Assertion macro for Windows
+	#ifdef PRISM_PLATFORM_WINDOWS
+		#define _PRISM_ASSERT_MACRO
+		#define PRISM_ASSERT(a,b) if (!(a)) { __debugbreak(); }
+	#endif
+
+	// If no other platform defines the macro, define it to do nothing.
+	#ifndef _PRISM_ASSERT_MACRO
+		#define _PRISM_ASSERT_MACRO
+		#define PRISM_ASSERT(a,b)
+	#endif
+
 #endif
 
 // Platform windows.
 #ifdef PRISM_PLATFORM_WINDOWS
-	// No platform dependant macros are defined yet.
 #endif
 
 // Platform OSX.

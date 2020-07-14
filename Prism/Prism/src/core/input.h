@@ -1,5 +1,6 @@
 #pragma once
-#include <core/core.h>
+#include <vector>
+#include <memory>
 
 namespace Prism {
 
@@ -20,11 +21,6 @@ namespace Prism {
 
 		uint32_t IsKeyHeld(Key);
 		uint32_t IsMouseBtnHeld(MouseBtn);
-
-		//const std::vector<KeyState> GetCurrentFrameKeyStates() const { return _currentFrameKeys; }
-		//const std::vector<KeyState> GetLastFrameKeyStates() const { return _lastFrameKeys; }
-		//const std::vector<MouseBtnState> GetCurrentFrameMouseBtnStates() const { return _currentFrameMouseBtns; }
-		//const std::vector<MouseBtnState> GetLastFrameMouseBtnStates() const { return _lastFrameMouseBtns; }
 
 		virtual void ValidateHoldStates() = 0;
 		void SwapStates();

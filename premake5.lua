@@ -8,9 +8,9 @@ workspace "Prism"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Includes to the project, relative to the workspace location
-include "./Prism/vendor/glfw/"
-include "./Prism/vendor/glad/"
-include "./Prism/vendor/imgui/"
+include "./Prism/Prism/vendor/glfw/"
+include "./Prism/Prism/vendor/glad/"
+include "./Prism/Prism/vendor/imgui/"
 
 project "Prism"
     location ("%{wks.name}/Prism")
@@ -30,32 +30,24 @@ project "Prism"
     }
 
     files {
+        "%{wks.name}/%{prj.name}/**.h",
         "%{wks.name}/%{prj.name}/src/**.h",
         "%{wks.name}/%{prj.name}/src/**.hpp",
         "%{wks.name}/%{prj.name}/src/**.cpp",
         "%{wks.name}/%{prj.name}/src/**.c",
-        "%{wks.name}/vendor/stb_image/**.h",
-        "%{wks.name}/vendor/stb_image/**.cpp",
-    }
-
-    sysincludedirs {
-        "./Prism/Prism/src/",
-        "./Prism/vendor/spdlog/include/",
-        "./Prism/vendor/glfw/include/",
-        "./Prism/vendor/glad/include/",
-        "./Prism/vendor/imgui/",
-        "./Prism/vendor/glm/glm/",
-        "./Prism/vendor/stb_image/"
+        "%{wks.name}/%{prj.name}/vendor/stb_image/**.h",
+        "%{wks.name}/%{prj.name}/vendor/stb_image/**.cpp",
     }
 
     includedirs {
-        "./Prism/Prism/src",
-        "./Prism/vendor/spdlog/include/",
-        "./Prism/vendor/glfw/include/",
-        "./Prism/vendor/glad/include/",
-        "./Prism/vendor/imgui/",
-        "./Prism/vendor/glm/glm/",
-        "./Prism/vendor/stb_image/"
+        "./Prism/Prism/src/",
+        "./Prism/Prism/vendor/",
+        "./Prism/Prism/vendor/spdlog/include/",
+        "./Prism/Prism/vendor/glfw/include/",
+        "./Prism/Prism/vendor/glad/include/",
+        "./Prism/Prism/vendor/imgui/",
+        "./Prism/Prism/vendor/glm/glm/",
+        "./Prism/Prism/vendor/stb_image/"
     }
 
     filter "system:windows"
@@ -93,6 +85,7 @@ project "Sandbox"
     objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
     files {
+        "%{wks.name}/%{prj.name}/**.h",
         "%{wks.name}/%{prj.name}/src/**.h",
         "%{wks.name}/%{prj.name}/src/**.hpp",
         "%{wks.name}/%{prj.name}/src/**.cpp",
@@ -100,17 +93,19 @@ project "Sandbox"
     }
 
     includedirs {
+        "./Prism/Prism/",
+        "./Prism/Prism/src/",
         "./Prism/vendor/spdlog/include",
-        "./Prism/Prism/src",
         "./Prism/vendor/glm/glm/",
         "./Prism/vendor/imgui/",
     }
 
     sysincludedirs {
-        "./Prism/vendor/spdlog/include/",
+        "./Prism/Prism/",
         "./Prism/Prism/src/",
-        "./Prism/vendor/glm/glm/",
-        "./Prism/vendor/imgui/",
+        "./Prism/Prism/vendor/spdlog/include/",
+        "./Prism/Prism/vendor/glm/glm/",
+        "./Prism/Prism/vendor/imgui/",
     }
 
     links {
