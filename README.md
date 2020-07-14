@@ -31,37 +31,5 @@ which contains far more detail than what is provided in the wiki.
 * **Dear imgui** An immediate mode GUI for... GUI stuff.
 * **glm** Maths library. I eventually want to make my own because this wheel is fun to reinvent.
 
-## Feature List
-
-Below is a list of features that are being worked on in the project. They are sorted by their
-status, leading by completed, in-progress, scheduled, refactor, and scraped.
-
-**Icon Descriptions**
-* ⬜️ – Scheduled task / feature.
-* ℹ️ – Currently in progress or researched.
-* ⏩ – Task / feature scheduled for rework.
-* ✅ – Completed task / feature.
-* 🆑 – Scraped task / feature.
-
-| Feature Name | Status | Implemented |
-| :--- | :--- | :----: |
-| Xcode premake | Mac OSX deprecated support for OpenGL | 🆑 |
-| App Framework | Basic framework implemented | ✅ |
-| Sandbox Project | Sandbox project implemented | ✅ |
-| Logging | Macro tested, ready for use | ✅ |
-| Visual Studio premake | Compilation tested, ready for development | ✅ |
-| GLFW Project | Ready for use | ✅ |
-| Event Dispatcher | Ready for use | ✅ |
-| Window Implementation | Glad for OpenGL added, functioning | ✅ |
-| Scenes & Layers | Functional, but barebones | ✅ |
-| Dear ImGUI | Included into the project | ✅ |
-| ImGUI Demo Layer | Functioning | ✅ |
-| Window Events | In use | ✅ |
-| Input Wrapper | Ready for use | ✅ |
-| Added GLM | Ready for use | ✅ |
-| Input Holding & Counting | Set up for holding and count how many frames held | ℹ️ |
-| WindowsWindow Input Refactor | Refactor OnEvent inputs to translate to the Input class | ℹ️ |
-| Object Memory Manager | Scheduled | ⬜️ |
-
 ## License
 Please review the [license](LICENSE.md) before cloning the project.
