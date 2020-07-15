@@ -23,7 +23,7 @@ namespace Prism {
 		glClearColor(c.r, c.g, c.b, c.a);
 	}
 
-	void OpenGLRendererInterface::DrawIndexed(std::shared_ptr<VertexArray>& va) {
+	void OpenGLRendererInterface::DrawIndexed(Ref<VertexArray>& va) {
 		glDrawElements(GL_TRIANGLES, va->GetIndexBuffer()->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 	}
 

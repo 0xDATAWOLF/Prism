@@ -1,10 +1,6 @@
 // Entry point for the application
 #include "core/logger.h"
 
-
-/**
- Performs platform independent initialization steps.
- */
 void _init() {
 	Prism::PrismLogger::Init();
 }

@@ -13,7 +13,7 @@ namespace Prism {
 
 		virtual const glm::vec3 GetPosition() const = 0;
 		virtual void SetPosition(glm::vec3&) = 0;
-		virtual void SetPosition(float, float, float) = 0;
+		virtual void SetProjection(float, float, float, float) = 0;
 		virtual const glm::mat4 GetViewProjectionMatrix() const = 0;
 		virtual const glm::mat4 GetProjectionMatrix() const = 0;
 		virtual const glm::mat4 GetViewMatrix() const = 0;
@@ -28,7 +28,7 @@ namespace Prism {
 
 		const glm::vec3 GetPosition() const { return _position; };
 		void SetPosition(glm::vec3&);
-		void SetPosition(float, float, float);
+		void SetProjection(float, float, float, float);
 		const glm::mat4 GetViewProjectionMatrix() const;
 		const glm::mat4 GetProjectionMatrix() const;
 		const glm::mat4 GetViewMatrix() const;

@@ -5,11 +5,6 @@
 
 namespace Prism {
 
-	/**
-	The application's logger code is here. Uses a form of lazy initialization. Doesn't require
-	any outside initialization if the logger isn't fetched. May cause race conditions if it
-	isn't initialized before child threads are deployed.
-	*/
 	class PrismLogger {
 		public:
 			static void Init();

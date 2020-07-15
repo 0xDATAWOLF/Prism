@@ -2,6 +2,8 @@
 #include <string>
 #include <cstdint>
 
+#include "core/core.h"
+
 namespace Prism {
 
 	// -------------------------------------------------------
@@ -36,7 +38,7 @@ namespace Prism {
 
 		virtual void Bind() = 0;
 
-		static Texture2D* Create(std::string filepath);
+		static Ref<Texture2D> Create(std::string filepath);
 
 	};
 

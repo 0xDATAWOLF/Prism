@@ -1,6 +1,11 @@
 #pragma once
+#include "core/core.h"
 
 namespace Prism {
+
+	// -------------------------------------------------------
+	// --- Graphics Context ----------------------------------
+	// -------------------------------------------------------
 
 	class GraphicsContext {
 	public:

@@ -41,7 +41,7 @@ namespace Prism {
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(std::shared_ptr<VertexBuffer>& vb) {
+	void OpenGLVertexArray::AddVertexBuffer(Prism::Ref<VertexBuffer>& vb) {
 		glBindVertexArray(_vao);
 		vb->Bind();
 
@@ -60,17 +60,17 @@ namespace Prism {
 		_vertexBuffers.push_back(vb);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(std::shared_ptr<IndexBuffer>& e) {
+	void OpenGLVertexArray::SetIndexBuffer(Ref<IndexBuffer>& e) {
 		glBindVertexArray(_vao);
 		e->Bind();
 		_indexBuffer = e;
 	}
 
-	const std::vector<std::shared_ptr<VertexBuffer>> OpenGLVertexArray::GetVertexBuffers() const {
+	const std::vector<Ref<VertexBuffer>> OpenGLVertexArray::GetVertexBuffers() const {
 		return _vertexBuffers;
 	}
 
-	const std::shared_ptr<IndexBuffer> OpenGLVertexArray::GetIndexBuffer() const {
+	const Ref<IndexBuffer> OpenGLVertexArray::GetIndexBuffer() const {
 		return _indexBuffer;
 	}
 
