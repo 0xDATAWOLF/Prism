@@ -33,10 +33,9 @@ namespace Prism {
 
 		void Run();
 
-		std::unique_ptr<LayerStack> _layerStack;
-		std::unique_ptr<ImGUILayer> _imguiLayer;
-		std::unique_ptr<Window> _window;
-
+		Scope<LayerStack> _layerStack;
+		Scope<ImGUILayer> _imguiLayer;
+		Scope<Window> _window;
 		Timestep _timestep;
 
 		bool _running = true;

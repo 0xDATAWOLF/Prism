@@ -3,6 +3,8 @@
 #include <memory>
 #include <string>
 
+#include "core/core.h"
+
 namespace Prism {
 
 	// -------------------------------------------------------
@@ -20,7 +22,7 @@ namespace Prism {
 		virtual void Unbind() = 0;
 		virtual std::string GetName() const = 0;
 
-		static Shader* Create(std::string filepath);
+		static Ref<Shader> Create(std::string filepath);
 
 	};
 
@@ -35,10 +37,10 @@ namespace Prism {
 
 		void Add(std::string filepath);
 		bool Exists(std::string name);
-		std::shared_ptr<Shader>& Get(std::string name);
+		Ref<Shader>& Get(std::string name);
 	
 	private:
-		std::unordered_map<std::string, std::shared_ptr<Shader>> _shaders;
+		std::unordered_map<std::string, Ref<Shader>> _shaders;
 
 	};
 
