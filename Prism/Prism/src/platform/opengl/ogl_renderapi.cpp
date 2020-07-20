@@ -23,8 +23,10 @@ namespace Prism {
 		glClearColor(c.r, c.g, c.b, c.a);
 	}
 
-	void OpenGLRendererInterface::DrawIndexed(Ref<VertexArray>& va) {
-		glDrawElements(GL_TRIANGLES, va->GetIndexBuffer()->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
+	void OpenGLRendererInterface::DrawIndexed(Ref<VertexArray>& va, uint32_t count) {
+		auto c = (count) ? count : va->GetIndexBuffer()->GetIndexCount();
+		glDrawElements(GL_TRIANGLES, c, GL_UNSIGNED_INT, nullptr);
+		glBindTexture(GL_TEXTURE_2D, 0); // unbind texture
 	}
 
 	RendererType OpenGLRendererInterface::GetAPIType() {

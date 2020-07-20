@@ -6,8 +6,8 @@
 
 namespace Prism {
 
-	OrthographicCameraController::OrthographicCameraController(float zoom)
-		: zoom(zoom), position({0.0f, 0.0f, 0.0f}), speed(3.0f) {
+	OrthographicCameraController::OrthographicCameraController(float zoom, float speed)
+		: zoom(zoom), position({0.0f, 0.0f, 0.0f}), speed(speed) {
 		auto& app = Application::Get();
 		aspectratio = (float)app.GetWindowWidth() / (float)app.GetWindowHeight();
 		camera = std::make_shared<OrthographicCamera>(-aspectratio*zoom, aspectratio*zoom, -1*zoom, 1*zoom);
@@ -34,13 +34,13 @@ namespace Prism {
 	}
 
 	bool OrthographicCameraController::OnWindowResize(WindowResizeEvent* e) {
-		float aspectratio = (float)e->GetWidth() / (float)e->GetHeight();
+		aspectratio = (float)e->GetWidth() / (float)e->GetHeight();
 		camera->SetProjection(-aspectratio*zoom, aspectratio*zoom, -1*zoom, 1*zoom);
 		return false;
 	}
 
 	bool OrthographicCameraController::OnMouseScroll(MouseScrollEvent* e) {
-		zoom -= e->GetYpos()*0.25;
+		zoom -= (e->GetYpos()*0.25f);
 		zoom = std::max(zoom, 0.25f);
 		camera->SetProjection(-aspectratio * zoom, aspectratio * zoom, -1 * zoom, 1 * zoom);
 		return false;

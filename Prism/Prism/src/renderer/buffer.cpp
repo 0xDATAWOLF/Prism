@@ -21,6 +21,14 @@ namespace Prism {
 	// --- Vertex Buffer -------------------------------------
 	// -------------------------------------------------------
 
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size) {
+		switch (Renderer::GetRendererType()) {
+			case RendererType::OpenGL: return std::make_shared<OpenGLVertexBuffer>(size);
+		}
+
+		PRISM_ASSERT(false, "Renderer does not support the given graphics library.");
+	}
+
 	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size, float* vertices) {
 		switch (Renderer::GetRendererType()) {
 			case RendererType::OpenGL: return std::make_shared<OpenGLVertexBuffer>(size, vertices);
@@ -28,6 +36,8 @@ namespace Prism {
 
 		PRISM_ASSERT(false, "Renderer does not support the given graphics library.");
 	}
+
+
 
 	// -------------------------------------------------------
 	// --- IndexBuffer ---------------------------------------

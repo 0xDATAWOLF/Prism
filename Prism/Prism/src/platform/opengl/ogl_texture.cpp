@@ -1,9 +1,21 @@
 #include "core/core.h"
 #include "platform/opengl/ogl_texture.h"
 
-#include <glad/glad.h>
-
 namespace Prism {
+
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) {
+		_width = width;
+		_height = height;
+		_textureDataType = GL_RGBA8;
+		_baseTextureDataType = GL_RGBA;
+
+		glCreateTextures(GL_TEXTURE_2D, 1, &_tid);
+		glTextureStorage2D(_tid, 1, _textureDataType, _width, _height);
+
+		glTextureParameteri(_tid, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(_tid, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	}
 
 	OpenGLTexture2D::OpenGLTexture2D(std::string filepath) {
 		_filepath = filepath;
@@ -39,8 +51,18 @@ namespace Prism {
 	uint32_t OpenGLTexture2D::GetWidth() const { return _width; }
 	uint32_t OpenGLTexture2D::GetHeight() const { return _height; }
 
-	void OpenGLTexture2D::Bind() {
-		glBindTextureUnit(0, _tid);
+	void OpenGLTexture2D::Bind(uint32_t index) {
+		glBindTextureUnit(index, _tid);
+	}
+
+	void OpenGLTexture2D::SetData(void* data, uint32_t size) {
+		uint32_t bpp = (_baseTextureDataType == GL_RGBA) ? 4 : 3;
+		PRISM_ASSERT((_width * _height * bpp) == size, "Size not set correctly.");
+		glTextureSubImage2D(_tid, 0, 0, 0, _width, _height, _baseTextureDataType, GL_UNSIGNED_BYTE, data);
+	}
+
+	bool OpenGLTexture2D::operator==(const Texture& rhs) {
+		return (_tid == ((OpenGLTexture2D&)rhs)._tid);
 	}
 
 }

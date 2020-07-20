@@ -16,7 +16,7 @@ namespace Prism {
 		virtual void Init();
 		virtual void Clear();
 		virtual void SetClearColor(const glm::vec4&);
-		virtual void DrawIndexed(Ref<VertexArray>&);
+		virtual void DrawIndexed(Ref<VertexArray>&, uint32_t count);
 		virtual RendererType GetAPIType();
 	};
 

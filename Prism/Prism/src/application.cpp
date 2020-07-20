@@ -14,6 +14,7 @@ namespace Prism {
 		_window->Attach(this);
 
 		Renderer::Init();
+		Renderer2D::Init();
 
 		_layerStack = std::make_unique<LayerStack>();
 		_imguiLayer = std::make_unique<ImGUILayer>();

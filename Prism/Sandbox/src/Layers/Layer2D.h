@@ -15,9 +15,14 @@ public:
 	virtual void ImGuiRender();
 
 private:
+	Prism::Ref<Prism::Texture2D> CheckerboardTexture;
 	Prism::OrthographicCameraController CameraController;
-	Prism::ShaderLibrary ShaderLibrary;
-	Prism::Ref<Prism::VertexArray> ColoredSquare;
 	glm::vec4 Color;
+	glm::vec4 SecondColor;
+
+	float deltaAverage = 16.0f;
+	float deltaAverageCounter = 0.0f;
+	uint32_t index = 0;
+	int32_t draws = 0;
 
 };

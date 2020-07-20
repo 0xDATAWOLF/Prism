@@ -12,7 +12,7 @@ namespace Prism {
 	class OrthographicCameraController : public IObserver {
 
 	public:
-		OrthographicCameraController(float zoom);
+		OrthographicCameraController(float zoom, float speed = 5.0f);
 		virtual ~OrthographicCameraController() {};
 
 		void OnUpdate(const Timestep&);

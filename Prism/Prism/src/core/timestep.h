@@ -18,7 +18,7 @@ namespace Prism {
 		}
 
 		inline float GetDeltaInMilliseconds() const {
-			return std::chrono::duration<float>(_t2 - _t1).count();
+			return std::chrono::duration<float>(_t2 - _t1).count()*1000;
 		};
 
 	private:
