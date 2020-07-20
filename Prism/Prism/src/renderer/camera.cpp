@@ -12,11 +12,13 @@ namespace Prism {
 
 	OrthographicCamera::~OrthographicCamera() {}
 
-	void OrthographicCamera::SetPosition(float x, float y, float z)
-		{ SetPosition(glm::vec3(x, y, z)); } // fwd
-
 	void OrthographicCamera::SetPosition(glm::vec3& pos) {
 		_position = pos;
+		RecalculateViewProjection();
+	}
+
+	void OrthographicCamera::SetProjection(float l, float r, float b, float t) {
+		_projectionMatrix = glm::ortho(l, r, b, t, -1.0f, 1.0f);
 		RecalculateViewProjection();
 	}
 

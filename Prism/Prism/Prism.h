@@ -20,12 +20,10 @@
 // --- Renderer ----------------------------
 #include "src/renderer/renderer.h"
 #include "src/renderer/camera.h"
+#include "src/OrthographicCameraController.h"
 #include "src/renderer/vertexarray.h"
 #include "src/renderer/buffer.h"
 #include "src/renderer/shader.h"
 #include "src/renderer/texture.h"
 
 #include "src/platform/opengl/ogl_shader.h"
-
-// --- Entry -------------------------------
-#include "src/core/entry.h"

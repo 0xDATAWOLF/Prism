@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 
+#include "core/core.h"
+
 namespace Prism {
 
 	// -------------------------------------------------------
@@ -89,10 +91,13 @@ namespace Prism {
 		virtual void Bind() = 0;
 		virtual void Unbind() = 0;
 
+		virtual void SetData(uint32_t size, const void* data) = 0;
+
 		virtual const BufferLayout GetLayout() const = 0;
 		virtual void SetLayout(BufferLayout) = 0;
 
-		static VertexBuffer* Create(uint32_t, float*);
+		static Ref<VertexBuffer> Create(uint32_t size, float* data);
+		static Ref<VertexBuffer> Create(uint32_t size);
 	};
 
 	// -------------------------------------------------------
@@ -107,7 +112,7 @@ namespace Prism {
 		virtual void Unbind() = 0;
 		virtual uint32_t GetIndexCount() const = 0;
 
-		static IndexBuffer* Create(uint32_t, uint32_t*);
+		static Ref<IndexBuffer> Create(uint32_t size, uint32_t* data);
 
 	};
 

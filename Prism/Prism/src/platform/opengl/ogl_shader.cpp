@@ -168,40 +168,35 @@ namespace Prism {
 
 	void OpenGLShader::DefineUniformMat3(const std::string& name, const glm::mat3& matrix) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
-		if (location == -1) {
-			CORE_ERROR("Unable to get uniform location for {}", name);
-			return;
-		}
+		if (location == -1) return;
 
 		glUniformMatrix3fv(location, 1, 0, glm::value_ptr(matrix));
 	}
 
 	void OpenGLShader::DefineUniformMat4(const std::string& name, const glm::mat4& matrix) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
-		if (location == -1) {
-			CORE_ERROR("Unable to get uniform location for {}", name);
-			return;
-		}
+		if (location == -1) return;
 
 		glUniformMatrix4fv(location, 1, 0, glm::value_ptr(matrix));
 	}
 
+	void OpenGLShader::DefineUniformIntArray(const std::string& name, uint32_t count, void* data) {
+		int32_t location = glGetUniformLocation(_program, name.c_str());
+		if (location == -1) return;
+
+		glUniform1iv(location, count, (int*)data);
+	}
+
 	void OpenGLShader::DefineUniformFloat(const std::string& name, const float f) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
-		if (location == -1) {
-			CORE_ERROR("Unable to get uniform location for {}", name);
-			return;
-		}
+		if (location == -1) return;
 
 		glUniform1f(location, f);
 	}
 
 	void OpenGLShader::DefineUniformFloat2(const std::string& name, const glm::vec2& v) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
-		if (location == -1) {
-			CORE_ERROR("Unable to get uniform location for {}", name);
-			return;
-		}
+		if (location == -1) return;
 
 		glUniform2f(location, v.x, v.y);
 	}
@@ -209,7 +204,6 @@ namespace Prism {
 	void OpenGLShader::DefineUniformFloat3(const std::string& name, const glm::vec3& v) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
 		if (location == -1) {
-			CORE_ERROR("Unable to get uniform location for {}", name);
 			return;
 		}
 
@@ -219,10 +213,7 @@ namespace Prism {
 
 	void OpenGLShader::DefineUniformFloat4(const std::string& name, const glm::vec4& v) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
-		if (location == -1) {
-			CORE_ERROR("Unable to get uniform location for {}", name);
-			return;
-		}
+		if (location == -1) return;
 
 		glUniform4f(location, v.x, v.y, v.z, v.w);
 
@@ -230,10 +221,7 @@ namespace Prism {
 
     void OpenGLShader::DefineUniformInt(const std::string& name, const int i) {
 		int32_t location = glGetUniformLocation(_program, name.c_str());
-		if (location == -1) {
-			CORE_ERROR("Unable to get uniform location for {}", name);
-			return;
-		}
+		if (location == -1) return;
 
 		glUniform1i(location, i);
 	}

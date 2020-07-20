@@ -1,4 +1,5 @@
 #pragma once
+#include "core/core.h"
 #include "renderer/renderer.h"
 
 namespace Prism {
@@ -15,7 +16,7 @@ namespace Prism {
 		virtual void Init();
 		virtual void Clear();
 		virtual void SetClearColor(const glm::vec4&);
-		virtual void DrawIndexed(std::shared_ptr<VertexArray>&);
+		virtual void DrawIndexed(Ref<VertexArray>&, uint32_t count);
 		virtual RendererType GetAPIType();
 	};
 

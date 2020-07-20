@@ -1,4 +1,13 @@
 #pragma once
+#include <memory>
+
+namespace Prism {
+	template <class T>
+	using Ref = std::shared_ptr<T>;
+
+	template <class T>
+	using Scope = std::unique_ptr<T>;
+}
 
 // PRISM_ASSERT macro works only on windows
 #ifndef _PRISM_ASSERT_MACRO

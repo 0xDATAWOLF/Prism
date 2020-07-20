@@ -12,11 +12,14 @@ namespace Prism {
 	class OpenGLVertexBuffer : public VertexBuffer {
 
 	public:
+		OpenGLVertexBuffer(uint32_t);
 		OpenGLVertexBuffer(uint32_t, float*);
 		virtual ~OpenGLVertexBuffer();
 
 		virtual void Bind() override;
 		virtual void Unbind() override;
+
+		virtual void SetData(uint32_t size, const void* data) override;
 
 		inline virtual const BufferLayout GetLayout() const override { return _bufferLayout; }
 		inline virtual void SetLayout(BufferLayout b) override { _bufferLayout = b; }

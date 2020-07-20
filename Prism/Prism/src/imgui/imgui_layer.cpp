@@ -50,7 +50,7 @@ namespace Prism {
 	void ImGUILayer::End() {
 		Application& app = Application::Get();
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(app.GetWindowWidth(), app.GetWindowHeight());
+		io.DisplaySize = ImVec2((float)app.GetWindowWidth(), (float)app.GetWindowHeight());
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -63,14 +63,7 @@ namespace Prism {
 		}
 	}
 
-	void ImGUILayer::ImGuiRender() {
-		static bool show = false;
-		if (show) ImGui::ShowDemoWindow(&show);
-		if (Input::IsKeyPressed(Key::F3)) show = true;
-	}
-
-	void ImGUILayer::Update(const Timestep& timestep) {
-		
-	}
+	void ImGUILayer::ImGuiRender() {}
+	void ImGUILayer::Update(const Timestep& timestep) {}
 
 }
